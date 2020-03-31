@@ -108,7 +108,7 @@ def create_user():
     user.isadmin = getBool.get(request.form.get('isadmin','off'),False)
     user.gravatar = getBool.get(request.form.get('gravatar','off'),False)
     user.save()
-    flash('User %s is created' % name,'success')
+    flash('User %s is created' % user.name,'success')
     return redirect(backurl)
 
 

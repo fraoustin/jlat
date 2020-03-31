@@ -9,12 +9,14 @@ from static import Static
 
 toBoolean = {'true': True, 'false':False}
 
+
 JLAT_PORT = int(os.environ.get('JLAT_PORT', '5000'))
 JLAT_DEBUG = toBoolean.get(os.environ.get('JLAT_DEBUG', 'false'), False)
 JLAT_HOST = os.environ.get('JLAT_HOST', '0.0.0.0')
 JLAT_DIR = os.environ.get('JLAT_DIR', os.path.dirname(os.path.abspath(__file__)))
 
 app = Flask(__name__)
+app.config["VERSION"] = "0.1.0"
 
 # db SQLAlchemy
 database_file = "sqlite:///{}".format(os.path.join(JLAT_DIR, "jlat.db"))

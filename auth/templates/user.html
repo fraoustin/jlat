@@ -31,7 +31,7 @@
             </tr>
             <tr>
                 <td><label class="siimple-label">Is Admin: </label></td>
-                <td><div class="siimple-switch"><input type="checkbox" id="isadmin" name="isadmin" {% if user.isadmin %}checked{% endif %} {% if not user.isadmin %}disabled{% endif %}><label for="isadmin"></label></div></td>
+                <td><div class="siimple-switch"><input type="checkbox" id="isadmin" name="isadmin" {% if user.isadmin %}checked{% endif %} {% if not current_user.isadmin %}disabled{% endif %}><label for="isadmin"></label></div></td>
             </tr>
             <tr>
                 <td><label class="siimple-label">Gravatar: </label></td>

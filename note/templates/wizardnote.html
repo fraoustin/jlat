@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% block navbar %}
+<a href="/"><div class="siimple-btn icon-close"></div></a>
+{% endblock %}
+
+{% block body %}
+<div class="siimple-steps siimple-steps--primary ">
+    <div id="step1" class="siimple-steps-item siimple-steps-item--current">
+        <div class="siimple-steps-item-bubble"></div>
+        <div class="siimple-steps-item-title">Etape 1</div>
+        <div class="siimple-steps-item-description">Un lecteur</div>
+    </div>
+    <div id="step2" class="siimple-steps-item">
+        <div class="siimple-steps-item-bubble"></div>
+        <div class="siimple-steps-item-title">Etape 2</div>
+        <div class="siimple-steps-item-description">Un livre</div>
+    </div>
+    <div id="step3" class="siimple-steps-item">
+        <div class="siimple-steps-item-bubble"></div>
+        <div class="siimple-steps-item-title">Etape 3</div>
+        <div class="siimple-steps-item-description">Un commentaire</div>
+    </div>
+    <div id="step4" class="siimple-steps-item">
+        <div class="siimple-steps-item-bubble"></div>
+        <div class="siimple-steps-item-title">Etape 4</div>
+        <div class="siimple-steps-item-description">Une note</div>
+    </div>
+</div>
+
+<div id="content1">
+    <div class="search icon-search"><input id="searchuser" type="text" class="siimple-input"></div>
+    <div id = "tableuser" class="siimple-table">
+        <div class="siimple-table-body">
+            {% for user in users %}
+            <div id="user{{user.id}}" class="siimple-table-row" onclick="runStepOne('{{user.id}}')">
+                <div class="siimple-table-cell">{{ user.name }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<div id="content2" class="hidden">
+    <div class="search icon-search"><input id="searchbook" type="text" class="siimple-input"></div>
+    <div id = "tablebook" class="siimple-table">
+        <div class="siimple-table-body">
+            {% for book in books %}
+            <div class="siimple-table-row" onclick="runStepTwo('{{book.id}}')">
+                <div class="siimple-table-cell">{{ book.title }}</div>
+                <div class="siimple-table-cell">{{ book.author }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<div id="content3" class="hidden">
+    <textarea id="commentary" name="commentary" class="siimple-textarea" rows="10"></textarea>
+    <div class="siimple-btn siimple-btn--primary siimple--float-right btn-wizard" onclick="runStepThree()">Suivant</div>
+</div>
+
+<div id="content4" class="hidden">
+    <div id = "tablebook" class="siimple-table">
+        <div class="siimple-table-body">
+            {% for noteStr in notation %}
+            <div class="siimple-table-row" onclick="runStepFour('{{notation[noteStr]}}','note{{notation[noteStr]}}')">
+                <div id="note{{notation[noteStr]}}" class="notation siimple-table-cell siimple--text-center">{{ noteStr }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="siimple-btn siimple-btn--primary siimple--float-right btn-wizard" onclick="window.document.form.submit()">Valider</div>
+</div>
+
+<form action="/wizardnote"  method="POST" name="form" class="hidden">
+    <input name="idbook" id="idbook" class="siimple-input" value="" size="40">
+    <input name="iduser" id="iduser" class="siimple-input" value="" size="40">
+    <input name="note" id="note" class="siimple-input" value="" size="40">
+    <textarea id="description" name="description" class="siimple-textarea" size="40" rows="5"></textarea>
+</form>
+
+<script>
+document.getElementById("searchuser").addEventListener("input", function(){searchAdvanced("searchuser", "tableuser")});
+document.getElementById("note0").classList.add("siimple--bg-primary")
+document.getElementById("note0").classList.add("siimple--color-white")
+
+document.getElementById("user{{current_user.id}}").classList.add("siimple--bg-primary")
+document.getElementById("user{{current_user.id}}").classList.add("siimple--color-white")
+
+function runStepOne(val){
+    document.getElementById("step1").classList.remove("siimple-steps-item--current");
+    document.getElementById("step2").classList.add("siimple-steps-item--current");
+    document.getElementById("content2").classList.remove("hidden");
+    document.getElementById("content1").classList.add("hidden");
+    document.getElementById("iduser").value=val;
+}
+function runStepTwo(val){
+    document.getElementById("step2").classList.remove("siimple-steps-item--current");
+    document.getElementById("step3").classList.add("siimple-steps-item--current");
+    document.getElementById("content3").classList.remove("hidden");
+    document.getElementById("content2").classList.add("hidden");
+    document.getElementById("idbook").value=val;
+}
+function runStepThree(){
+    document.getElementById("step3").classList.remove("siimple-steps-item--current");
+    document.getElementById("step4").classList.add("siimple-steps-item--current");
+    document.getElementById("content4").classList.remove("hidden");
+    document.getElementById("content3").classList.add("hidden");
+    document.getElementById("description").value=document.getElementById("commentary").value;
+}
+function runStepFour(val, id){
+    document.getElementById("note").value=val;
+    var x = document.getElementsByClassName("notation");
+    var i;
+    for (i = 0; i < x.length; i++) {
+        x[i].classList.remove("siimple--bg-primary");
+        x[i].classList.remove("siimple--color-white");
+    }
+    document.getElementById(id).classList.add("siimple--bg-primary")
+    document.getElementById(id).classList.add("siimple--color-white")
+}
+</script>
+{% endblock %}

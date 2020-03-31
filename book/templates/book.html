@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block navbar %}
+<a href="/books"><div class="siimple-btn icon-close"></div></a>
+{% if current_user.isadmin %}
+<div class="siimple-btn icon-save" onclick="window.document.formupdate.submit()"></div>
+    {% if book.id != None %}
+    <div class="siimple-btn icon-del" onclick="window.document.formdel.submit()"></div>
+    {% endif %}
+{% endif %}
+{% endblock %}
+
+{% block body %}
+    <div class="siimple-h2">Book {{ book.name }}</div>
+    {% if book.id != None %}
+    <form action="/book/{{ book.id }}"  method="POST" name="formupdate">
+    {% else %}
+    <form action="/book"  method="POST" name="formupdate">
+    {% endif %}
+        <table>
+            <tr>
+                <td><label class="siimple-label">Title: </label></td>
+                <td><input name="title" id="title" class="siimple-input siimple-input--fluid" value="{{ book.title }}" required {% if not current_user.isadmin %}disabled{% endif %}></td>
+            </tr>
+            <tr>
+                <td><label class="siimple-label">Author: </label></td>
+                <td><input name="author" id="author" class="siimple-input siimple-input--fluid" value="{{ book.author }}" {% if not current_user.isadmin %}disabled{% endif %}></td>
+            </tr>
+            <tr>
+                <td><label class="siimple-label">Year: </label></td>
+                <td><input name="year" id="password" class="siimple-input siimple-input--fluid" value="{{ book.year }}" {% if not current_user.isadmin %}disabled{% endif %}></td>
+            </tr>
+            <tr>
+                <td><label class="siimple-label">Id Mascarille: </label></td>
+                <td><input name="idext" id="idext" class="siimple-input siimple-input--fluid" value="{{ book.idext }}" {% if not current_user.isadmin %}disabled{% endif %}></td>
+            </tr>
+            <tr>
+                <td><label class="siimple-label">Description: </label></td>
+                <td><textarea id="description" name="description" class="siimple-textarea" size="40" rows="10" {% if not current_user.isadmin %}disabled{% endif %}>{{ book.description }}</textarea></td>
+            </tr>
+        </table>
+    </form>
+    <form action="/delbook/{{ book.id }}"  method="POST" name="formdel">
+    </form>
+{% endblock %}

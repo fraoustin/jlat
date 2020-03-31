@@ -1,0 +1,42 @@
+{% set context='app' %}
+{% extends 'base.html' %}
+
+{% block navbar %}
+<a href="/"><div class="siimple-btn icon-close"></div></a>
+<div class="siimple-btn icon-upload" onclick="window.document.formimport.submit()"></div>
+{% endblock %}
+
+{% block body %}
+<div class="siimple-h2">Import</div>
+<form action="/up"  method="POST" name="formimport"  enctype=multipart/form-data>
+        <table>
+            <tr>
+                <td><label class="siimple-label">Table: </label></td>
+                <td> 
+                    <select class="siimple-select siimple-select--fluid" id="table" name="table">
+                    {% for table in tables %}
+                        <option value="{{ table }}" >{{ table }}</option>
+                    {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><label class="siimple-label">File: </label></td>
+                <td><div class="siimple-btn siimple-btn--success" onclick="document.getElementById('file').click()">Select File</div><input type="file" name="file" id="file" accept="csv"  style="display: none" onchange="changeInput()"><div id="valueinput" style="display: inline; padding-left:10px;"></div></div></td>
+            </tr>
+        </table>
+    </form>
+<script>
+function changeInput(){
+    var fullPath = document.getElementById('file').value;
+    if (fullPath) {
+        var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
+        var filename = fullPath.substring(startIndex);
+        if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
+            filename = filename.substring(1);
+        }
+        document.getElementById('valueinput').innerText=filename;
+    }
+}
+</script>
+{% endblock %}

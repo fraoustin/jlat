@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block navbar %}
+<a href="/"><div class="siimple-btn icon-close"></div></a>
+<a href="/user"><div class="siimple-btn icon-add"></div></a>
+<div class="siimple-btn icon-download" onclick="export_table_to_csv('table', 'user.csv');"></div>
+{% endblock %}
+
+{% block body %}
+<div class="siimple-h2">Users</div>
+<div class="search icon-search"><input id="search" type="text" class="siimple-input"></div>
+<div id = "table" class="siimple-table">
+    <div class="siimple-table-header">
+        <div class="siimple-table-row">
+            <div class="siimple-table-cell hidden">Id</div>
+            <div class="siimple-table-cell">Name</div>
+            <div class="siimple-table-cell">Email</div>
+            <div class="siimple-table-cell">Last connection</div>
+            <div class="siimple-table-cell hidden">Isadmin</div>
+            <div class="siimple-table-cell hidden">Gravatar</div>
+
+        </div>
+    </div>
+    <div class="siimple-table-body">
+        {% for user in users %}
+        <div class="siimple-table-row" onclick="window.location='/user/{{ user.id }}'">
+            <div class="siimple-table-cell hidden">{{ user.id }}</div>
+            <div class="siimple-table-cell">{{ user.name }}</div>
+            <div class="siimple-table-cell">{{ user.email }}</div>
+            <div class="siimple-table-cell">{{ user.lastconnection }}</div>
+            <div class="siimple-table-cell hidden">{{ user.isadmin }}</div>
+            <div class="siimple-table-cell hidden">{{ user.gravatar }}</div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

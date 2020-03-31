@@ -1,0 +1,49 @@
+{% set context='app' %}
+{% extends 'base.html' %}
+
+{% block navbar %}
+<a href="/"><div class="siimple-btn icon-close"></div></a>
+<div class="siimple-btn icon-print" onclick="print()"></div>
+{% endblock %}
+
+{% block body %}
+<div class="siimple-h2">Reviews</div>
+{% for book in books %}
+    <div class="siimple-card">
+        <div class="siimple-card-header">{{ book.title }} by <span class="siimple--text-italic">{{ book.author }}</span></div>
+        <div class="siimple-card-body">
+        {% for note in book.notes %}
+            {% if note.checked %}
+            <div id="note{{ note.id}}" class="siimple-tip no-background">
+            {% else %}
+            <div id="note{{ note.id}}" class="siimple-tip siimple-tip--success no-background">
+            {% endif %}
+                <div class="siimple--text-bold">
+                    <span class="siimple-tag siimple-tag--primary siimple-tag--rounded">{{ note.noteStr }}</span>
+                    <a class="no-decorate" href="/note/{{ note.id }}">{{ note.user.name }}</a>
+                    {% if current_user.isadmin %}
+                    <div id="switchnote{{ note.id }}" class="siimple-switch no-print float-right {% if note.checked %}hidden{% endif %}"><input type="checkbox" id="mySwitch{{ note.id }}" checked onclick="review('{{ note.id}}','switchnote{{ note.id}}','note{{ note.id}}')"><label for="mySwitch{{ note.id }}"></label></div>
+                    {% endif %}
+                </div>
+                <div>{{ note.description }}</div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>  
+{% endfor %}
+<script>
+function review(id, switchnote, note){
+    var xmlHttp = new XMLHttpRequest();
+    var theUrl = "/note/valid/" + id;
+    xmlHttp.onreadystatechange = function() { 
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
+            console.log("ok");
+            document.getElementById(switchnote).classList.add("hidden");
+            document.getElementById(note).classList.remove("siimple-tip--success");
+        }
+    }
+    xmlHttp.open("GET", theUrl, true); // true for asynchronous 
+    xmlHttp.send(null);
+}
+</script>
+{% endblock %}

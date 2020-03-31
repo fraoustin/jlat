@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block navbar %}
+<a href="/notes"><div class="siimple-btn icon-close"></div></a>
+{% if note.id == None %}
+<div class="siimple-btn icon-save" onclick="window.document.formupdate.submit()"></div>
+{% else %}
+    {% if current_user.isadmin %}
+        <div class="siimple-btn icon-save" onclick="window.document.formupdate.submit()"></div>
+        <div class="siimple-btn icon-del" onclick="window.document.formdel.submit()"></div>
+    {% elif current_user.id == note.idauth or current_user.name == note.lastmodifiedby %}
+        <div class="siimple-btn icon-save" onclick="window.document.formupdate.submit()"></div>
+    {% endif %}
+{% endif %}
+{% endblock %}
+
+{% block body %}
+    {% if note.id != None %}
+    <div class="siimple-h2">Note for {{ note.book.title }}</div>
+    <form action="/note/{{ note.id }}"  method="POST" name="formupdate">
+    {% else %}
+    <div class="siimple-h2">Note</div>
+    <form action="/note"  method="POST" name="formupdate">
+    {% endif %}
+        <table>
+            <tr>
+                <td><label class="siimple-label">Book: </label></td>
+                <td> 
+                    <select class="siimple-select siimple-select--fluid" id="idbook" name="idbook" {% if note.onlyView %}disabled{% endif %}>
+                    {% for book in books %}
+                        <option value="{{ book.id }}" {% if note.book.id == book.id %}selected{% endif %}>{{ book.title }}</option>
+                    {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><label class="siimple-label">User: </label></td>
+                <td>
+                    <select class="siimple-select siimple-select--fluid" id="iduser" name="iduser" {% if note.onlyView %}disabled{% endif %}>
+                    {% for user in users %}
+                        {% if note.id != None %}
+                        <option value="{{ user.id }}" {% if note.user.id == user.id %}selected{% endif %}>{{ user.name }}</option>
+                        {% else %}
+                        <option value="{{ user.id }}" {% if current_user.id == user.id %}selected{% endif %}>{{ user.name }}</option>
+                        {% endif %}
+                    {% endfor %}
+                    </select>
+                </td>        
+            </tr>
+            <tr>
+                <td><label class="siimple-label">Note: </label></td>
+                <td>
+                    <select class="siimple-select siimple-select--fluid" id="note" name="note" {% if note.onlyView %}disabled{% endif %}>
+                    {% for noteStr in notation %}
+                    <option value="{{ notation[noteStr] }}" {% if note.note == notation[noteStr] %}selected{% endif %}>{{ noteStr }}</option>
+                    {% endfor %}
+                    </select>
+            </tr>
+            <tr {% if not current_user.isadmin %}class="hidden"{% endif %}>
+                <td><label class="siimple-label">Checked: </label></td>                
+                <td><div class="siimple-switch"><input type="checkbox" id="checked" name="checked" {% if note.checked %}checked{% endif %}><label for="checked"></label></div></td>
+            </tr>
+            <tr>
+                <td><label class="siimple-label">Description: </label></td>
+                <td><textarea id="description" name="description" class="siimple-textarea" size="40" rows="10" {% if note.onlyView %}disabled{% endif %}>{{ note.description }}</textarea></td>
+            </tr>
+        </table>
+    </form>
+    <form action="/delnote/{{ note.id }}"  method="POST" name="formdel">
+    </form>
+{% endblock %}

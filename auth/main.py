@@ -119,8 +119,8 @@ def update_user(id):
     if user is not None:
         user.email = request.form['email']
         user.name = request.form['name']
-        if len(password):
-            user.password = password
+        if len(request.form['password']):
+            user.password = request.form['password']
         if current_user.isadmin and current_user.id != user.id:
             user.isadmin = getBool.get(request.form.get('isadmin','off'),False)
         user.gravatar = getBool.get(request.form.get('gravatar','off'),False)

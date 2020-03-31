@@ -33,7 +33,7 @@ COPY review/ /jlat/review
 COPY static/ /jlat/static
 COPY templates/ /jlat/templates
 COPY up/ /jlat/up
-COPY jlat.py /mapit/jlat.py
+COPY jlat.py /jlat/jlat.py
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh

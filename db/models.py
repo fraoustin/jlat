@@ -4,17 +4,15 @@ from db import db
 
 from auth import User
 
-NOTATION = {'A':10,
-            'Aa':9,
-            'a':8,
-            'aB':7,
-            'B':6,
-            'Bb':5,
-            'b':4,
-            'bC':3,
-            'C':2,
-            'Cd':1,
-            'd':0}
+NOTATION = {'A':9,
+            'Aa':8,
+            'a':7,
+            'aB':6,
+            'B':5,
+            'Bb':4,
+            'b':3,
+            'bC':2,
+            'C':1}
 
 INVNOTATION = {}
 for note in NOTATION:

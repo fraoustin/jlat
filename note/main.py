@@ -76,7 +76,7 @@ def listing():
 
 @login_required
 def wizardnoteview():
-    return render_template("wizardnote.html", users=User.all(sortby=User.name), books=Book.all(sortby=Book.title), notation=NOTATION)
+    return render_template("wizardnote.html", users=User.all(sortby=User.name), books=Book.all(sortby=Book.idext), notation=NOTATION)
 
 @login_required
 def wizardnotecreate():

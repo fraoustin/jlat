@@ -116,9 +116,16 @@ a.no-decorate {
 .float-right {
     float: right;
 }
- .siimple-textarea, .siimple-input {
+
+.siimple-textarea, .siimple-input {
      font-size: 16px;
- }
+}
+
+.siimple--mx-auto {
+    width: fit-content;
+    display: block !important;
+}
+
 @media print
 {
     .no-print {

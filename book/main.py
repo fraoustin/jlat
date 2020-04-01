@@ -68,7 +68,7 @@ def delete(id):
 
 @login_required
 def list():
-    return render_template("books.html", books=Book.all(sortby=Book.title))
+    return render_template("books.html", books=Book.all(sortby=Book.idext))
 
 
 class Books(Blueprint):

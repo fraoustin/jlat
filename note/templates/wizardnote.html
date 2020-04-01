@@ -25,6 +25,11 @@
         <div class="siimple-steps-item-title">Etape 4</div>
         <div class="siimple-steps-item-description">Une note</div>
     </div>
+    <div id="step5" class="siimple-steps-item">
+        <div class="siimple-steps-item-bubble"></div>
+        <div class="siimple-steps-item-title">Etape 5</div>
+        <div class="siimple-steps-item-description">Validation</div>
+    </div>
 </div>
 
 <div id="content1">
@@ -45,7 +50,7 @@
     <div id = "tablebook" class="siimple-table">
         <div class="siimple-table-body">
             {% for book in books %}
-            <div class="siimple-table-row" onclick="runStepTwo('{{book.id}}')">
+            <div class="siimple-table-row" onclick="runStepTwo('{{book.id}}', '{{book.idext }} {{ book.title }}')">
                 <div class="siimple-table-cell">{{ book.idext }}</div>
                 <div class="siimple-table-cell">{{ book.title }}</div>
                 <div class="siimple-table-cell">{{ book.author }}</div>
@@ -64,13 +69,20 @@
     <div id = "tablebook" class="siimple-table">
         <div class="siimple-table-body">
             {% for noteStr in notation %}
-            <div class="siimple-table-row" onclick="runStepFour('{{notation[noteStr]}}','note{{notation[noteStr]}}')">
+            <div class="siimple-table-row" onclick="runStepFour('{{notation[noteStr]}}','{{noteStr}}')">
                 <div id="note{{notation[noteStr]}}" class="notation siimple-table-cell siimple--text-center">{{ noteStr }}</div>
             </div>
             {% endfor %}
         </div>
     </div>
-    <div class="siimple-btn siimple-btn--primary siimple--float-right btn-wizard" onclick="window.document.form.submit()">Valider</div>
+</div>
+
+
+<div id="content5" class="hidden">
+    <div id="step5Title" class="siimple--mx-auto siimple-h3"></div>
+    <div class="siimple--mx-auto"> obtient la note</div>
+    <div id="step5Note" class="siimple--mx-auto siimple-h1 siimple--color-success"></div>
+    <div class="siimple-btn siimple-btn--primary btn-wizard siimple--mx-auto" onclick="window.document.form.submit()">Valider</div>
 </div>
 
 <form action="/wizardnote"  method="POST" name="form" class="hidden">
@@ -95,12 +107,13 @@ function runStepOne(val){
     document.getElementById("content1").classList.add("hidden");
     document.getElementById("iduser").value=val;
 }
-function runStepTwo(val){
+function runStepTwo(val, title){
     document.getElementById("step2").classList.remove("siimple-steps-item--current");
     document.getElementById("step3").classList.add("siimple-steps-item--current");
     document.getElementById("content3").classList.remove("hidden");
     document.getElementById("content2").classList.add("hidden");
     document.getElementById("idbook").value=val;
+    document.getElementById("step5Title").innerText=title;
 }
 function runStepThree(){
     document.getElementById("step3").classList.remove("siimple-steps-item--current");
@@ -109,16 +122,13 @@ function runStepThree(){
     document.getElementById("content3").classList.add("hidden");
     document.getElementById("description").value=document.getElementById("commentary").value;
 }
-function runStepFour(val, id){
+function runStepFour(val, str){
+    document.getElementById("step4").classList.remove("siimple-steps-item--current");
+    document.getElementById("step5").classList.add("siimple-steps-item--current");
+    document.getElementById("content5").classList.remove("hidden");
+    document.getElementById("content4").classList.add("hidden");
     document.getElementById("note").value=val;
-    var x = document.getElementsByClassName("notation");
-    var i;
-    for (i = 0; i < x.length; i++) {
-        x[i].classList.remove("siimple--bg-primary");
-        x[i].classList.remove("siimple--color-white");
-    }
-    document.getElementById(id).classList.add("siimple--bg-primary")
-    document.getElementById(id).classList.add("siimple--color-white")
+    document.getElementById("step5Note").innerText=str;
 }
 </script>
 {% endblock %}

@@ -55,7 +55,7 @@ class Note(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     idbook = db.Column(db.Integer, nullable=False)
     iduser = db.Column(db.Integer, nullable=False)
-    note = db.Column(db.Integer, default=0)
+    note = db.Column(db.Integer, default=1)
     description = db.Column(db.String, nullable=True)
     lastmodifiedby = db.Column(db.String, nullable=True)
     lastmodified = db.Column(db.DateTime, nullable=True)

@@ -10,7 +10,7 @@
 <div class="siimple-h2">Reviews</div>
 {% for book in books %}
     <div class="siimple-card">
-        <div class="siimple-card-header">{{ book.title }} by <span class="siimple--text-italic">{{ book.author }}</span></div>
+        <div class="siimple-card-header">{{ book.title }} de <span class="siimple--text-italic">{{ book.author }}</span></div>
         <div class="siimple-card-body">
         {% for note in book.notes %}
             {% if note.checked %}

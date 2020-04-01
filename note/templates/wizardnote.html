@@ -46,6 +46,7 @@
         <div class="siimple-table-body">
             {% for book in books %}
             <div class="siimple-table-row" onclick="runStepTwo('{{book.id}}')">
+                <div class="siimple-table-cell">{{ book.idext }}</div>
                 <div class="siimple-table-cell">{{ book.title }}</div>
                 <div class="siimple-table-cell">{{ book.author }}</div>
             </div>
@@ -55,7 +56,7 @@
 </div>
 
 <div id="content3" class="hidden">
-    <textarea id="commentary" name="commentary" class="siimple-textarea" rows="10"></textarea>
+    <textarea id="commentary" name="commentary" class="siimple-textarea" rows="15"></textarea>
     <div class="siimple-btn siimple-btn--primary siimple--float-right btn-wizard" onclick="runStepThree()">Suivant</div>
 </div>
 

@@ -13,12 +13,16 @@
             <tr>
                 <td><label class="siimple-label">Table: </label></td>
                 <td> 
-                    <select class="siimple-select siimple-select--fluid" id="table" name="table">
+                    <select class="siimple-select siimple-select--fluid" id="table" name="table" onchange="changeHeader()">
                     {% for table in tables %}
                         <option value="{{ table }}" >{{ table }}</option>
                     {% endfor %}
                     </select>
                 </td>
+            </tr>
+            <tr>
+                <td><label class="siimple-label">Header: </label></td>
+                <td id="labelHeader"></td>
             </tr>
             <tr>
                 <td><label class="siimple-label">File: </label></td>
@@ -38,5 +42,16 @@ function changeInput(){
         document.getElementById('valueinput').innerText=filename;
     }
 }
+function changeHeader(){
+    value = document.getElementById('table').value;
+    {% for header in headers %}
+    if ( value == '{{ header[0] }}'){
+        document.getElementById('labelHeader').innerText='{{ header[1] }}';
+    }
+    {% endfor %}
+    console.log(value)
+}
+
+changeHeader()
 </script>
 {% endblock %}

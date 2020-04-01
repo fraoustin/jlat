@@ -13,13 +13,19 @@ from db.models import Note
 from note import NOTATION
 
 
+ALLOWED_EXTENSIONS = ['csv',]
+HEADERS = {
+    'User': ['id','name','email','isadmin','gravatar'],
+    'Book' : ['id','title','author','idext','year']
+}
+                
+LABEL_HEADER = [[i, ', '.join(HEADERS[i]) ] for i in HEADERS ]
 
 @login_required
 @checkAdmin()
 def view():
-    return render_template('up.html', tables=['User','Book'])
+    return render_template('up.html', tables=['User','Book'], headers=LABEL_HEADER)
 
-ALLOWED_EXTENSIONS = ['csv',]
 
 def allowed_file(filename):
     return '.' in filename and \

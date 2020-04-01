@@ -89,6 +89,11 @@ form table tr td:first-child label {
     white-space: nowrap;
 }
 
+a.no-decorate {
+    text-decoration: none;
+    color: unset;
+}
+
 /* ****************************************************** */
 /*                      specific jlat                     */
 
@@ -108,15 +113,12 @@ form table tr td:first-child label {
     background-color: #ffffff !important;
 }
 
-a.no-decorate {
-    text-decoration: none;
-    color: unset;
-}
-
 .float-right {
     float: right;
 }
-
+ .siimple-textarea, .siimple-input {
+     font-size: 16px;
+ }
 @media print
 {
     .no-print {

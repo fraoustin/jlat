@@ -16,9 +16,9 @@
     <div class="siimple-table-header">
         <div class="siimple-table-row">
             <div class="siimple-table-cell hidden">Id</div>
+            <div class="siimple-table-cell">Num</div>
             <div class="siimple-table-cell">Title</div>
             <div class="siimple-table-cell">Author</div>
-            <div class="siimple-table-cell hidden">Idext</div>
             <div class="siimple-table-cell">Year</div>
             <div class="siimple-table-cell hidden">Last modified by</div>
             <div class="siimple-table-cell hidden">Last modified</div>
@@ -28,9 +28,9 @@
         {% for book in books %}
         <div class="siimple-table-row" onclick="window.location='/book/{{ book.id }}'">
             <div class="siimple-table-cell hidden">{{ book.id }}</div>
+            <div class="siimple-table-cell">{{ book.idext }}</div>
             <div class="siimple-table-cell">{{ book.title }}</div>
             <div class="siimple-table-cell">{{ book.author }}</div>
-            <div class="siimple-table-cell hidden">{{ book.idext }}</div>
             <div class="siimple-table-cell">{{ book.year }}</div>
             <div class="siimple-table-cell hidden">{{ book.lastmodifiedby }}</div>
             <div class="siimple-table-cell hidden">{{ book.lastmodified }}</div>

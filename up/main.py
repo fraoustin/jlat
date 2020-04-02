@@ -81,6 +81,7 @@ def upload():
                         for li in [li for li in line if line != 'id']:
                             elt.__setattr__(li, line[li])
                         elt.save()
+                        number_line = number_line+1
                     flash('Import data Ok','success')
                 except Exception as err :
                     print(err)

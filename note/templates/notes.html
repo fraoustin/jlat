@@ -14,6 +14,7 @@
     <div class="siimple-table-header">
         <div class="siimple-table-row">
             <div class="siimple-table-cell hidden">Id</div>
+            <div class="siimple-table-cell">Num</div>
             <div class="siimple-table-cell">Title</div>
             <div class="siimple-table-cell">User</div>
             <div class="siimple-table-cell">Note</div>
@@ -25,6 +26,7 @@
         {% for note in notes %}
         <div class="siimple-table-row" onclick="window.location='/note/{{ note.id }}'">
             <div class="siimple-table-cell hidden">{{ note.id }}</div>
+            <div class="siimple-table-cell">{{ note.book.idext }}</div>
             <div class="siimple-table-cell">{{ note.book.title }}</div>
             <div class="siimple-table-cell">{{ note.user.name }}</div>
             <div class="siimple-table-cell">{{ note.noteStr }}</div>

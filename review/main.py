@@ -11,7 +11,7 @@ from note import NOTATION
 
 @login_required
 def view():
-    return render_template('reviews.html', books=Book.all(sortby=Book.title))
+    return render_template('reviews.html', books=Book.all(sortby=Book.idext))
 
 @login_required
 @checkAdmin()

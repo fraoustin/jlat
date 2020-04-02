@@ -72,7 +72,7 @@ def delete(id):
 
 @login_required
 def listing():
-    return render_template("notes.html", notes=Note.all())
+    return render_template("notes.html", notes=sorted(Note.all(), key=lambda note: note.book.idext))
 
 @login_required
 def wizardnoteview():

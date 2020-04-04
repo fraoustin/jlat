@@ -22,21 +22,15 @@ RUN mkdir /data
 VOLUME /data
 
 RUN mkdir /jlat
-COPY auth/ /jlat/auth
-COPY book/ /jlat/book
-COPY db/ /jlat/db
+COPY . /jlat/
+RUN rm -rf /jlat/files
 COPY --from=builder /jlat/files /jlat/files
-#COPY files/ /jlat/files
-COPY info/ /jlat/info
-COPY note/ /jlat/note
-COPY review/ /jlat/review
-COPY static/ /jlat/static
-COPY templates/ /jlat/templates
-COPY up/ /jlat/up
-COPY jlat.py /jlat/jlat.py
+RUN rm -rf /jlat/entrypoint.sh
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
+
+RUN pip install -r /jlat/REQUIREMENTS.txt
 
 ENV JLAT_PORT 5000
 ENV JLAT_DEBUG false

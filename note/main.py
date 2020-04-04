@@ -82,14 +82,11 @@ def wizardnoteview():
 def wizardnotecreate():
     idbook = request.form['idbook']
     iduser = request.form['iduser']
-    note = request.form['note']
-    description = request.form['description']
     note = Note.query.filter_by(idbook=idbook, iduser=iduser).first()
     if note is None:
-        note = Note(idbook=idbook, description=description, iduser=iduser, note=note)
-    else:
-        note.note = request.form['note']
-        note.description = request.form['description']
+        note = Note(idbook=idbook, iduser=iduser)
+    note.note = request.form['note']
+    note.description = request.form['description']
     note.save()
     flash('Note is created', 'success')
     return redirect(url_for('home'))

@@ -50,7 +50,7 @@
     <div id = "tablebook" class="siimple-table">
         <div class="siimple-table-body">
             {% for book in books %}
-            <div class="siimple-table-row" onclick="runStepTwo('{{book.id}}', '{{book.idext }} {{ book.title }}')">
+            <div id="bookId{{book.id}}" class="siimple-table-row" onclick="runStepTwo('{{book.id}}','bookId{{book.id}}')">
                 <div class="siimple-table-cell">{{ book.idext }}</div>
                 <div class="siimple-table-cell">{{ book.title }}</div>
                 <div class="siimple-table-cell">{{ book.author }}</div>
@@ -107,13 +107,13 @@ function runStepOne(val){
     document.getElementById("iduser").value=val;
     document.getElementsByTagName("body")[0].scrollTop=0;
 }
-function runStepTwo(val, title){
+function runStepTwo(val, bookid){
     document.getElementById("step2").classList.remove("siimple-steps-item--current");
     document.getElementById("step3").classList.add("siimple-steps-item--current");
     document.getElementById("content3").classList.remove("hidden");
     document.getElementById("content2").classList.add("hidden");
     document.getElementById("idbook").value=val;
-    document.getElementById("step5Title").innerText=title;
+    document.getElementById("step5Title").innerText=document.getElementById(bookid).querySelectorAll('div')[1].innerText;
     document.getElementsByTagName("body")[0].scrollTop=0;
 }
 function runStepThree(){

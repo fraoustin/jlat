@@ -21,7 +21,8 @@
 .icon-print,
 .icon-magical,
 .icon-medal,
-.icon-upload {
+.icon-upload,
+.icon-filter {
     font-family: icomoon;
     speak: none;
     font-style: normal;
@@ -90,4 +91,8 @@
 
 .icon-upload:before {
     content: "\e90e"
+}
+
+.icon-filter:before {
+    content: "\e90f"
 }

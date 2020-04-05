@@ -21,12 +21,21 @@ def valid(id):
     note.save()
     return "ok"
 
+@login_required
+@checkAdmin()
+def onrace(id):
+    book = Book.get(id)
+    book.onrace = not book.onrace
+    book.save()
+    return "ok"
+
 class Reviews(Blueprint):
 
     def __init__(self, name='review', import_name=__name__, *args, **kwargs):
         Blueprint.__init__(self, name, import_name, template_folder='templates', *args, **kwargs)
         self.add_url_rule('/reviews', 'reviews', view, methods=['GET'])
         self.add_url_rule('/note/valid/<int:id>', 'valid_note', valid, methods=['GET'])
+        self.add_url_rule('/note/onrace/<int:id>', 'onrace_book', onrace, methods=['GET'])
 
     def register(self, book, options, first_registration=False):
         try:

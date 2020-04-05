@@ -18,20 +18,24 @@
     {% endif %}
         <table>
             <tr>
-                <td><label class="siimple-label">Title: </label></td>
+                <td><label class="siimple-label">Titre:</label></td>
                 <td><input name="title" id="title" class="siimple-input siimple-input--fluid" value="{{ book.title }}" required {% if not current_user.isadmin %}disabled{% endif %}></td>
             </tr>
             <tr>
-                <td><label class="siimple-label">Author: </label></td>
+                <td><label class="siimple-label">Auteur:</label></td>
                 <td><input name="author" id="author" class="siimple-input siimple-input--fluid" value="{{ book.author }}" {% if not current_user.isadmin %}disabled{% endif %}></td>
             </tr>
             <tr>
-                <td><label class="siimple-label">Year: </label></td>
+                <td><label class="siimple-label">Année:</label></td>
                 <td><input name="year" id="password" class="siimple-input siimple-input--fluid" value="{{ book.year }}" {% if not current_user.isadmin %}disabled{% endif %}></td>
             </tr>
             <tr>
-                <td><label class="siimple-label">Id Mascarille: </label></td>
+                <td><label class="siimple-label">Id Mascarille:</label></td>
                 <td><input name="idext" id="idext" class="siimple-input siimple-input--fluid" value="{{ book.idext }}" {% if not current_user.isadmin %}disabled{% endif %}></td>
+            </tr>
+            <tr>
+                <td><label class="siimple-label">En Course:</label></td>                
+                <td><div class="siimple-switch"><input type="checkbox" id="onrace" name="onrace" {% if book.onrace %}checked{% endif %} {% if not current_user.isadmin %}disabled{% endif %}><label for="onrace"></label></div></td>
             </tr>
             <tr>
                 <td><label class="siimple-label">Description: </label></td>

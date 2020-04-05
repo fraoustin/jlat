@@ -126,6 +126,11 @@ a.no-decorate {
     display: block !important;
 }
 
+
+.siimple-tip--add::before {
+    content: "+";
+}
+
 @media print
 {
     .no-print {

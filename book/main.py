@@ -7,6 +7,8 @@ from auth import checkAdmin
 from db import db
 from db.models import Book
 
+getBool ={'on': True, 'off': False}
+
 @login_required
 def view(id):
     try:
@@ -22,7 +24,7 @@ def view(id):
 @login_required
 @checkAdmin()
 def new():
-    return render_template('book.html', book=Book())
+    return render_template('book.html', book=Book(onrace=True))
 
 
 @login_required
@@ -33,7 +35,8 @@ def create():
     description = request.form['description']
     author = request.form['author']
     year = request.form['year']
-    book = Book(title=title, description=description, author=author, year=year, idext=idext)
+    onrace = getBool.get(request.form.get('onrace','off'),False)
+    book = Book(title=title, description=description, author=author, year=year, idext=idext, onrace=onrace)
     book.save()
     flash('Book "%s" is created' % title, 'success')
     return redirect(url_for('book.update_book', id=book.id))
@@ -49,6 +52,7 @@ def update(id):
         book.author = request.form['author']
         book.year = request.form['year']
         book.idext = request.form['idext']
+        book.onrace = getBool.get(request.form.get('onrace','off'),False)
         book.save()
         flash('Book "%s" is saved' % book.title,'success')
         return redirect(url_for('book.update_book', id=book.id))

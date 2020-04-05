@@ -14,6 +14,16 @@ NOTATION = {'A':9,
             'bC':2,
             'C':1}
 
+NOTATIONTOAVG = {9:20,
+                8:18,
+                7:15,
+                6:12,
+                5:10,
+                4:8,
+                3:5,
+                2:2,
+                1:0}
+
 INVNOTATION = {}
 for note in NOTATION:
     INVNOTATION[NOTATION[note]] = note
@@ -29,6 +39,7 @@ class Book(db.Model):
     year = db.Column(db.String, nullable=False)
     lastmodifiedby = db.Column(db.String, nullable=True)
     lastmodified = db.Column(db.DateTime, nullable=True)
+    onrace = db.Column(db.Boolean, nullable=False, default=True)
 
     def __setattr__(self, name, value):
         if type(value) == str and len(value) == 0:
@@ -48,6 +59,19 @@ class Book(db.Model):
     @property
     def notes(self):
         return Note.query.filter_by(idbook=self.id).order_by(Note.id).all()
+    
+    @property
+    def onraceStr(self):
+        if self.onrace:
+            return "oui"
+        return "non"
+    
+    @property
+    def average(self):
+        notes = self.notes
+        if len(notes) < 2:
+            return False
+        return round(sum([ NOTATIONTOAVG.get(note.note,0) for note in notes]) / len(notes), 1)
 
 class Note(db.Model):
     __tablename__ = 'note'

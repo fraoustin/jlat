@@ -10,16 +10,17 @@
 {% endblock %}
 
 {% block body %}
-<div class="siimple-h2">Books</div>
+<div class="siimple-h2">Livres</div>
 <div class="search icon-search"><input id="search" type="text" class="siimple-input"></div>
 <div id = "table" class="siimple-table">
     <div class="siimple-table-header">
         <div class="siimple-table-row">
             <div class="siimple-table-cell hidden">Id</div>
             <div class="siimple-table-cell">Num</div>
-            <div class="siimple-table-cell">Title</div>
-            <div class="siimple-table-cell">Author</div>
-            <div class="siimple-table-cell">Year</div>
+            <div class="siimple-table-cell">Titre</div>
+            <div class="siimple-table-cell">Auteur</div>
+            <div class="siimple-table-cell">Année</div>
+            <div class="siimple-table-cell">En course</div>
             <div class="siimple-table-cell hidden">Last modified by</div>
             <div class="siimple-table-cell hidden">Last modified</div>
         </div>
@@ -32,6 +33,7 @@
             <div class="siimple-table-cell">{{ book.title }}</div>
             <div class="siimple-table-cell">{{ book.author }}</div>
             <div class="siimple-table-cell">{{ book.year }}</div>
+            <div class="siimple-table-cell">{{ book.onraceStr }}</div>
             <div class="siimple-table-cell hidden">{{ book.lastmodifiedby }}</div>
             <div class="siimple-table-cell hidden">{{ book.lastmodified }}</div>
         </div>

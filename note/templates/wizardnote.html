@@ -105,6 +105,7 @@ function runStepOne(val){
     document.getElementById("content2").classList.remove("hidden");
     document.getElementById("content1").classList.add("hidden");
     document.getElementById("iduser").value=val;
+    document.getElementsByTagName("body")[0].scrollTop=0;
 }
 function runStepTwo(val, title){
     document.getElementById("step2").classList.remove("siimple-steps-item--current");
@@ -113,6 +114,7 @@ function runStepTwo(val, title){
     document.getElementById("content2").classList.add("hidden");
     document.getElementById("idbook").value=val;
     document.getElementById("step5Title").innerText=title;
+    document.getElementsByTagName("body")[0].scrollTop=0;
 }
 function runStepThree(){
     document.getElementById("step3").classList.remove("siimple-steps-item--current");
@@ -120,6 +122,7 @@ function runStepThree(){
     document.getElementById("content4").classList.remove("hidden");
     document.getElementById("content3").classList.add("hidden");
     document.getElementById("description").value=document.getElementById("commentary").value;
+    document.getElementsByTagName("body")[0].scrollTop=0;
 }
 function runStepFour(val, str){
     document.getElementById("step4").classList.remove("siimple-steps-item--current");
@@ -128,6 +131,7 @@ function runStepFour(val, str){
     document.getElementById("content4").classList.add("hidden");
     document.getElementById("note").value=val;
     document.getElementById("step5Note").innerText=str;
+    document.getElementsByTagName("body")[0].scrollTop=0;
 }
 </script>
 {% endblock %}

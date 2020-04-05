@@ -131,6 +131,9 @@ a.no-decorate {
     content: "+";
 }
 
+.margintopfive {
+    margin-top: 5px;
+}
 @media print
 {
     .no-print {

@@ -134,6 +134,11 @@ a.no-decorate {
 .margintopfive {
     margin-top: 5px;
 }
+
+.withpre {
+    white-space: pre;
+}
+
 @media print
 {
     .no-print {

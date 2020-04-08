@@ -36,7 +36,7 @@
                     <div id="switchnote{{ note.id }}" class="siimple-switch no-print float-right {% if note.checked %}hidden{% endif %}"><input type="checkbox" id="mySwitch{{ note.id }}" checked onclick="review('{{ note.id}}','switchnote{{ note.id}}','note{{ note.id}}')"><label for="mySwitch{{ note.id }}"></label></div>
                     {% endif %}
                 </div>
-                <div>{{ note.description }}</div>
+                <div class="withpre">{{ note.description }}</div>
             </div>
         {% endfor %}
         </div>

@@ -15,7 +15,7 @@
 
 {% block body %}
     {% if note.id != None %}
-    <div class="siimple-h2">Note for {{ note.book.title }}</div>
+    <div class="siimple-h2">Note pour {{ note.book.title }}</div>
     <form action="/note/{{ note.id }}"  method="POST" name="formupdate">
     {% else %}
     <div class="siimple-h2">Note</div>
@@ -23,7 +23,7 @@
     {% endif %}
         <table>
             <tr>
-                <td><label class="siimple-label">Book: </label></td>
+                <td><label class="siimple-label">Livre: </label></td>
                 <td> 
                     <select class="siimple-select siimple-select--fluid" id="idbook" name="idbook" {% if note.onlyView %}disabled{% endif %}>
                     {% for book in books %}
@@ -33,7 +33,7 @@
                 </td>
             </tr>
             <tr>
-                <td><label class="siimple-label">User: </label></td>
+                <td><label class="siimple-label">Relecteur: </label></td>
                 <td>
                     <select class="siimple-select siimple-select--fluid" id="iduser" name="iduser" {% if note.onlyView %}disabled{% endif %}>
                     {% for user in users %}

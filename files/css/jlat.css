@@ -136,7 +136,7 @@ a.no-decorate {
 }
 
 .withpre {
-    white-space: pre;
+    white-space: pre-wrap;
 }
 
 @media print

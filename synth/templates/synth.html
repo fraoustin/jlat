@@ -3,6 +3,8 @@
 {% block navbar %}
 <a href="/"><div class="siimple-btn icon-close"></div></a>
 <div class="siimple-btn icon-download" onclick="export_table_to_csv('table', 'synth.csv');"></div>
+<div id="btnFilter" class="siimple-btn icon-filter" onclick="filterRace()"></div>
+<a id="btnNoFilter" href="/reviews" class="hidden"><div class="siimple-btn icon-filter"></div></a>
 
 {% endblock %}
 
@@ -25,7 +27,7 @@
     </div>
     <div class="siimple-table-body">
         {% for book in books %}
-        <div class="siimple-table-row">
+        <div class="siimple-table-row {% if book.onrace %}onrace{% else %} noonrace {% endif %}">
             <div class="siimple-table-cell">{{ book.idext }}</div>
             <div class="siimple-table-cell">{{ book.author }}</div>
             <div class="siimple-table-cell">{{ book.title }}</div>
@@ -39,4 +41,18 @@
         {% endfor %}
     </div>
 </div>
+<script>
+function filterRace(){    
+    var books = document.querySelectorAll(".siimple-table-row.noonrace");
+    for (var i = 0; i < books.length; i++) {
+        books[i].classList.remove("hidden");
+    };
+    document.getElementById('btnFilter').classList.add("hidden");
+    document.getElementById('btnNoFilter').classList.remove("hidden");
+}
+var books = document.querySelectorAll(".siimple-table-row.noonrace");
+for (var i = 0; i < books.length; i++) {
+    books[i].classList.add("hidden");
+};
+</script>
 {% endblock %}

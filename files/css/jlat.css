@@ -93,6 +93,65 @@ a.no-decorate {
     text-decoration: none;
     color: unset;
 }
+.siimple-card-body a.no-decorate {
+    cursor: pointer;
+}
+
+.siimple-spinner.siimple-h1,
+.siimple-spinner.siimple-h1:before,
+.siimple-spinner.siimple-h1:after {
+    width: 40px;
+    height: 40px;
+}
+.siimple-spinner.siimple-h1:before {
+    left: calc(50px * -1);
+}
+.siimple-spinner.siimple-h1:after {
+    left: 50px;
+}
+
+.siimple-spinner.siimple-h2,
+.siimple-spinner.siimple-h2:before,
+.siimple-spinner.siimple-h2:after {
+    width: 32px;
+    height: 32px;
+}
+.siimple-spinner.siimple-h2:before {
+    left: calc(42px * -1);
+}
+.siimple-spinner.siimple-h2:after {
+    left: 42px;
+}
+
+.siimple-spinner.siimple-h3,
+.siimple-spinner.siimple-h3:before,
+.siimple-spinner.siimple-h3:after {
+    width: 28px;
+    height: 28px;
+}
+.siimple-spinner.siimple-h3:before {
+    left: calc(36px * -1);
+}
+.siimple-spinner.siimple-h3:after {
+    left: 36px;
+}
+
+.siimple-spinner.siimple-h4,
+.siimple-spinner.siimple-h4:before,
+.siimple-spinner.siimple-h4:after {
+    width: 24px;
+    height: 24px;
+}
+.siimple-spinner.siimple-h4:before {
+    left: calc(30px * -1);
+}
+.siimple-spinner.siimple-h4:after {
+    left: 30px;
+}
+
+#wait {
+    margin-top: 100px;
+}
 
 /* ****************************************************** */
 /*                      specific jlat                     */

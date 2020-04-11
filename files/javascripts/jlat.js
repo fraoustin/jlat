@@ -19,7 +19,7 @@ function download_csv(csv, filename) {
 
 function export_table_to_csv(id, filename) {
 	var csv = [];
-    var rows = document.getElementById(id).querySelectorAll(".siimple-table-row");
+    var rows = document.getElementById(id).querySelectorAll(".siimple-table-row:not(.hidden)");
     //header
     var row = [], cols = rows[0].querySelectorAll(".siimple-table-cell");
     for (var j = 0; j < cols.length; j++) 
@@ -77,5 +77,12 @@ function searchAdvanced(idinput, idtable) {
 if (document.getElementById("search")) {
 document.getElementById("search").addEventListener("input", function(){searchAdvanced("search", "table")});
 };
+
+function view_wait() {
+    document.getElementById("nowait").classList.add("hidden");
+    document.getElementById("wait").classList.remove("hidden");
+}
+
+
 // ***************************************************** //
 //                  specific jalt                        //

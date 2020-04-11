@@ -16,7 +16,7 @@ JLAT_HOST = os.environ.get('JLAT_HOST', '0.0.0.0')
 JLAT_DIR = os.environ.get('JLAT_DIR', os.path.dirname(os.path.abspath(__file__)))
 
 app = Flask(__name__)
-app.config["VERSION"] = "0.1.17"
+app.config["VERSION"] = "0.1.18"
 
 # db SQLAlchemy
 database_file = "sqlite:///{}".format(os.path.join(JLAT_DIR, "jlat.db"))
@@ -44,6 +44,8 @@ from review import Reviews
 app.register_blueprint(Reviews(url_prefix="/"))
 from up import Ups
 app.register_blueprint(Ups(url_prefix='/'))
+from synth import Synth
+app.register_blueprint(Synth(url_prefix='/'))
 
 
 

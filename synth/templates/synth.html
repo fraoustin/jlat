@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block navbar %}
+<a href="/"><div class="siimple-btn icon-close"></div></a>
+<div class="siimple-btn icon-download" onclick="export_table_to_csv('table', 'synth.csv');"></div>
+
+{% endblock %}
+
+{% block body %}
+<div class="siimple-h2">Synthèse</div>
+<div class="search icon-search"><input id="search" type="text" class="siimple-input"></div>
+<div id = "table" class="siimple-table">
+    <div class="siimple-table-header">
+        <div class="siimple-table-row">
+            <div class="siimple-table-cell">Num</div>
+            <div class="siimple-table-cell">Auteur</div>
+            <div class="siimple-table-cell">Titre</div>
+            <div class="siimple-table-cell">En course</div>
+            <div class="siimple-table-cell">Note</div>
+            <div class="siimple-table-cell">Nbre de note</div>
+            {% for user in users %}
+            <div class="siimple-table-cell"><div class="text-vertical">{{ user.name }}</div></div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="siimple-table-body">
+        {% for book in books %}
+        <div class="siimple-table-row">
+            <div class="siimple-table-cell">{{ book.idext }}</div>
+            <div class="siimple-table-cell">{{ book.author }}</div>
+            <div class="siimple-table-cell">{{ book.title }}</div>
+            <div class="siimple-table-cell">{{ book.onraceStr }}</div>
+            <div class="siimple-table-cell">{% if book.average %}{{ book.average }}{% endif %}</div>
+            <div class="siimple-table-cell">{{ book.notes |length }}</div>
+            {% for user in users %}
+            <div class="siimple-table-cell border-left">{{ book.getNoteFrom(user.id) }}</div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -91,6 +91,14 @@ def wizardnotecreate():
     flash('Note is created', 'success')
     return redirect(url_for('home'))
 
+
+@login_required
+def getdescription(idbook, iduser):
+    note = Note.query.filter_by(idbook=idbook, iduser=iduser).first()
+    if note is None:
+        return ""
+    return note.description
+
 class Notes(Blueprint):
 
     def __init__(self, name='note', import_name=__name__, *args, **kwargs):
@@ -103,6 +111,7 @@ class Notes(Blueprint):
         self.add_url_rule('/notes', 'notes', listing, methods=['GET'])
         self.add_url_rule('/wizardnote', 'wizard_note', wizardnoteview, methods=['GET'])
         self.add_url_rule('/wizardnote', 'wizard_new_note', wizardnotecreate, methods=['POST'])
+        self.add_url_rule('/note/description/<int:idbook>/<int:iduser>', 'description_note', getdescription, methods=['GET'])
 
     def register(self, note, options, first_registration=False):
         try:

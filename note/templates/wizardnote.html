@@ -114,7 +114,20 @@ function runStepTwo(val, bookid){
     document.getElementById("content2").classList.add("hidden");
     document.getElementById("idbook").value=val;
     document.getElementById("step5Title").innerText=document.getElementById(bookid).querySelectorAll('div')[1].innerText;
-    document.getElementsByTagName("body")[0].scrollTop=0;
+    // get description
+    var iduser = document.getElementById("iduser").value;
+    var xmlHttp = new XMLHttpRequest();
+    var theUrl = "/note/description/" + val + "/" + iduser;
+    xmlHttp.onreadystatechange = function() { 
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
+            document.getElementById("commentary").value = xmlHttp.responseText;
+            document.getElementsByTagName("body")[0].scrollTop=0;
+        }
+    }
+    xmlHttp.open("GET", theUrl, true); // true for asynchronous 
+    xmlHttp.send(null);
+    console.log(theUrl)
+    
 }
 function runStepThree(){
     document.getElementById("step3").classList.remove("siimple-steps-item--current");

@@ -22,7 +22,8 @@
 .icon-magical,
 .icon-medal,
 .icon-upload,
-.icon-filter {
+.icon-filter,
+.icon-table {
     font-family: icomoon;
     speak: none;
     font-style: normal;
@@ -95,4 +96,8 @@
 
 .icon-filter:before {
     content: "\e90f"
+}
+
+.icon-table:before {
+    content: "\e910"
 }

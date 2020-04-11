@@ -37,8 +37,8 @@ class Reviews(Blueprint):
         self.add_url_rule('/note/valid/<int:id>', 'valid_note', valid, methods=['GET'])
         self.add_url_rule('/note/onrace/<int:id>', 'onrace_book', onrace, methods=['GET'])
 
-    def register(self, book, options, first_registration=False):
+    def register(self, review, options, first_registration=False):
         try:
-            Blueprint.register(self, book, options, first_registration)
+            Blueprint.register(self, review, options, first_registration)
         except:
-            book.logger.error("init book on register is failed")
+            book.logger.error("init review on register is failed")

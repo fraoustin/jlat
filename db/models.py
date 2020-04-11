@@ -72,6 +72,12 @@ class Book(db.Model):
         if len(notes) < 2:
             return False
         return round(sum([ NOTATIONTOAVG.get(note.note,0) for note in notes]) / len(notes), 1)
+    
+    def getNoteFrom(self, iduser):
+        note = Note.query.filter_by(idbook=self.id, iduser=iduser).first()
+        if note is None:
+            return ""
+        return note.noteStr
 
 class Note(db.Model):
     __tablename__ = 'note'

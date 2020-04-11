@@ -139,6 +139,14 @@ a.no-decorate {
     white-space: pre-wrap;
 }
 
+.text-vertical {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    display: block;
+}
+.border-left {
+    border-left: 1px solid #cbd8e6;
+}
 @media print
 {
     .no-print {

@@ -1,4 +1,3 @@
-{% set context='app' %}
 {% extends 'base.html' %}
 
 {% block navbar %}
@@ -77,10 +76,14 @@ function onrace(id, bookcard){
 function filterRace(){    
     var books = document.querySelectorAll(".book-card.noonrace");
     for (var i = 0; i < books.length; i++) {
-        books[i].classList.add("hidden");
+        books[i].classList.remove("hidden");
     };
     document.getElementById('btnFilter').classList.add("hidden");
     document.getElementById('btnNoFilter').classList.remove("hidden");
 }
+var books = document.querySelectorAll(".book-card.noonrace");
+for (var i = 0; i < books.length; i++) {
+    books[i].classList.add("hidden");
+};
 </script>
 {% endblock %}

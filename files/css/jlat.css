@@ -65,7 +65,7 @@ a.gravatar {
 
 .content-center {
     margin: auto;
-    width: fit-content;
+    width: max-content;
 }
 
 #content {

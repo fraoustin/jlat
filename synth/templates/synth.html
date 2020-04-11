@@ -27,7 +27,7 @@
     </div>
     <div class="siimple-table-body">
         {% for book in books %}
-        <div class="siimple-table-row {% if book.onrace %}onrace{% else %} noonrace {% endif %}">
+        <div class="siimple-table-row hidden {% if book.onrace %}onrace{% else %} noonrace {% endif %}">
             <div class="siimple-table-cell">{{ book.idext }}</div>
             <div class="siimple-table-cell">{{ book.author }}</div>
             <div class="siimple-table-cell">{{ book.title }}</div>
@@ -50,9 +50,9 @@ function filterRace(){
     document.getElementById('btnFilter').classList.add("hidden");
     document.getElementById('btnNoFilter').classList.remove("hidden");
 }
-var books = document.querySelectorAll(".siimple-table-row.noonrace");
+var books = document.querySelectorAll(".siimple-table-row.onrace");
 for (var i = 0; i < books.length; i++) {
-    books[i].classList.add("hidden");
+    books[i].classList.remove("hidden");
 };
 </script>
 {% endblock %}

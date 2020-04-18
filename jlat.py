@@ -25,7 +25,8 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     
 # register Auth
 app.register_blueprint(Auth(url_prefix="/"))
-app.config['APP_NAME'] = os.environ.get('JLAT_NAME', 'JLAT Report')
+app.config['APP_NAME'] = os.environ.get('JLAT_NAME', 'SIGAL')
+app.config['APP_DESC'] = os.environ.get('JLAT_DESC', 'Système Informatisé de Gestion des Appréciations de Lecteurs')
 # register Info
 app.register_blueprint(Info(url_prefix="/"))
 

@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block body %}
-    <div class="siimple-h2">Book {{ book.name }}</div>
+    <div class="siimple-h2">Livre : {{ book.title }}</div>
     {% if book.id != None %}
     <form action="/book/{{ book.id }}"  method="POST" name="formupdate">
     {% else %}

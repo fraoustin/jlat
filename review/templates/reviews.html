@@ -67,6 +67,13 @@ function onrace(id, bookcard){
                 document.getElementById(bookcard).classList.remove('onrace');
                 document.getElementById(bookcard).classList.add('noonrace');
                 document.getElementById(bookcard).querySelectorAll('.margintopfive')[0].innerText = "Hors course";
+                var notes = document.getElementById(bookcard).querySelectorAll('.siimple-tip');
+                for (var i = 0; i < notes.length; i++) {
+                    if ( !document.getElementById("switchnote" + notes[i].getAttribute("id").substring(4)).classList.contains('hidden')) {
+                        document.getElementById("switchnote" + notes[i].getAttribute("id").substring(4)).querySelectorAll('input')[0].click();
+                    }
+                };
+
             }
         }
     }

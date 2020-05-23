@@ -23,7 +23,9 @@
 .icon-medal,
 .icon-upload,
 .icon-filter,
-.icon-table {
+.icon-table,
+.icon-history,
+.icon-flag {
     font-family: icomoon;
     speak: none;
     font-style: normal;
@@ -100,4 +102,12 @@
 
 .icon-table:before {
     content: "\e910"
+}
+
+.icon-history:before {
+    content: "\e911"
+}
+
+.icon-flag:before {
+    content: "\e912"
 }

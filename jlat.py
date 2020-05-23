@@ -9,7 +9,6 @@ from static import Static
 
 toBoolean = {'true': True, 'false':False}
 
-
 JLAT_PORT = int(os.environ.get('JLAT_PORT', '5000'))
 JLAT_DEBUG = toBoolean.get(os.environ.get('JLAT_DEBUG', 'false'), False)
 JLAT_HOST = os.environ.get('JLAT_HOST', '0.0.0.0')
@@ -47,8 +46,10 @@ from up import Ups
 app.register_blueprint(Ups(url_prefix='/'))
 from synth import Synth
 app.register_blueprint(Synth(url_prefix='/'))
-
-
+from history import History
+app.register_blueprint(History(url_prefix='/', archives=os.path.join(JLAT_PATH, "archives")))
+from register import Register
+app.register_blueprint(Register(url_prefix='/'))
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -56,10 +57,6 @@ app.register_blueprint(Synth(url_prefix='/'))
 def home():
     return render_template('index.html')
 
-@app.route("/lock", methods=["GET", "POST"])
-@login_required
-def lock():
-    return 'you are authorized'
 
 if __name__ == "__main__":
     db.init_app(app)

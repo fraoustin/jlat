@@ -16,8 +16,6 @@ RUN minify -o jlat.js jlat.js
 
 FROM python:3.8-alpine
 
-RUN pip install flask Flask-SQLAlchemy flask-login
-
 RUN mkdir /data
 VOLUME /data
 

@@ -30,6 +30,8 @@ class User(db.Model):
     lastconnection = db.Column(db.Date, nullable=True)
     isadmin = db.Column(db.Boolean, default=False, nullable=False)
     gravatar = db.Column(db.Boolean, default=False, nullable=False)
+    apikey = db.Column(db.String, nullable=True)
+    token = db.Column(db.String, nullable=True)
 
     def __setattr__(self, name, value):
         if name in ('isadmin','gravatar') and type(value) == str:
@@ -87,11 +89,11 @@ def view_user(id):
         flash('Not user identified', 'error')
         return render_template('user.html', user=current_user, backurl=None)
 
+
 @login_required
 @checkAdmin()
 def new_user():
     return render_template('user.html', user=User(), backurl="/users")
-
 
 
 @login_required
@@ -103,7 +105,15 @@ def create_user():
     password = request.form['password']
     if len(password) == 0:
         password = str(uuid.uuid4())
+    apikey = request.form['apikey']
+    if len(apikey) == 0:
+        apikey = str(uuid.uuid4())
+    token = request.form['token']
+    if len(token) == 0:
+        token = str(uuid.uuid4())
     user.password=password
+    user.apikey=apikey
+    user.token=token
     user.name = request.form['name']
     user.isadmin = getBool.get(request.form.get('isadmin','off'),False)
     user.gravatar = getBool.get(request.form.get('gravatar','off'),False)
@@ -121,6 +131,14 @@ def update_user(id):
         user.name = request.form['name']
         if len(request.form['password']):
             user.password = request.form['password']
+        apikey = request.form['apikey']
+        if len(apikey) == 0:
+            apikey = str(uuid.uuid4())
+        token = request.form['token']
+        if len(token) == 0:
+            token = str(uuid.uuid4())
+        user.apikey=apikey
+        user.token=token
         if current_user.isadmin and current_user.id != user.id:
             user.isadmin = getBool.get(request.form.get('isadmin','off'),False)
         user.gravatar = getBool.get(request.form.get('gravatar','off'),False)
@@ -130,6 +148,7 @@ def update_user(id):
     else:
         flash('User doesn\'t exist','warning')
         return redirect(backurl)
+
 
 @login_required
 @checkAdmin()
@@ -145,10 +164,12 @@ def delete_user(id):
         flash('User %s is deleted' % name,'error')
     return redirect(backurl)
 
+
 @login_required
 @checkAdmin()
 def users():
     return render_template("users.html", users=User.all(sortby=User.name), backurl=None)
+
 
 def login():
     if request.method == 'POST':
@@ -165,9 +186,11 @@ def login():
             return render_template('login.html')        
     return render_template('login.html')
 
+
 def logout():
     logout_user()
     return redirect(url_for('home'))
+
 
 class Auth(Blueprint):
 
@@ -200,6 +223,30 @@ class Auth(Blueprint):
         @self._login_manager.unauthorized_handler
         def unauthorized():
             return redirect(url_for('auth.login'))
+
+        @self._login_manager.request_loader
+        def load_user_from_request(request):
+            # first, try to login using the api_key url arg
+            apikey = request.args.get('api')
+            if api:
+                user = User.query.filter_by(apikey=apikey).first()
+                if user is not None:
+                    return user
+
+            # next, try to login using Basic Auth
+            token = request.headers.get('Authorization')
+            if token:
+                token = token.replace('Basic ', '', 1)
+                try:
+                    token = base64.b64decode(token)
+                except Exception:
+                    pass
+                user = User.query.filter_by(token=token).first()
+                if user is not None:
+                    return user
+
+            # finally, return None if both methods did not login the user
+            return None
         
     def init_db(self):    
         if len(User.query.all()) == 0:

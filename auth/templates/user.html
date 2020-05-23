@@ -37,6 +37,14 @@
                 <td><label class="siimple-label">Gravatar: </label></td>
                 <td><div class="siimple-switch"><input type="checkbox" id="gravatar" name="gravatar" {% if user.gravatar %}checked{% endif %}><label for="gravatar"></label></div></td>
             </tr>
+            <tr>
+                <td><label class="siimple-label">Apikey: </label></td>
+                <td><input name="apikey" id="apikey" class="siimple-input siimple-input--fluid" value="{{ user.apikey }}"></td>
+            </tr>
+            <tr>
+                <td><label class="siimple-label">Token: </label></td>
+                <td><input name="token" id="token" class="siimple-input siimple-input--fluid" value="{{ user.token }}"></td>
+            </tr>
         </table>
     </form>
     <form action="/deluser/{{ user.id }}"  method="POST" name="formuserdel">

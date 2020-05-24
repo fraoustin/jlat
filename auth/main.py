@@ -228,7 +228,7 @@ class Auth(Blueprint):
         def load_user_from_request(request):
             # first, try to login using the api_key url arg
             apikey = request.args.get('api')
-            if api:
+            if apikey:
                 user = User.query.filter_by(apikey=apikey).first()
                 if user is not None:
                     return user

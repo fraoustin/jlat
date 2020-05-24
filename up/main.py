@@ -4,6 +4,8 @@ from flask_login import login_required, current_user
 import csv
 from werkzeug.utils import secure_filename
 import os
+from shutil import copyfile
+import datetime
 
 from auth import checkAdmin, User
 
@@ -25,6 +27,20 @@ LABEL_HEADER = [[i, ', '.join(HEADERS[i]) ] for i in HEADERS ]
 @checkAdmin()
 def view():
     return render_template('up.html', tables=['User','Book'], headers=LABEL_HEADER)
+
+@login_required
+@checkAdmin()
+def purge():
+    current_app.logger.info('backup %s' % current_app.config["SQLALCHEMY_DATABASE_URI"][10:])
+    now = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+    copyfile(current_app.config["SQLALCHEMY_DATABASE_URI"][10:], current_app.config["SQLALCHEMY_DATABASE_URI"][10:] + '.' + now)
+    notes = Note.all()
+    for note in notes:
+        note.remove()
+    books = Book.all()
+    for book in books:
+        book.remove()
+    return redirect('/up')
 
 
 def allowed_file(filename):
@@ -99,6 +115,7 @@ class Ups(Blueprint):
         self.dir_uploads = dir_uploads
         self.add_url_rule('/up', 'up', view, methods=['GET'])
         self.add_url_rule('/up', 'upload', upload, methods=['POST'])
+        self.add_url_rule('/purge', 'purge', purge, methods=['POST'])
 
     def _init(self):
         current_app.config['UPLOAD_FOLDER'] = self.dir_uploads

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block navbar %}
+<a href="/"><div class="siimple-btn icon-close"></div></a>
+<div class="siimple-btn icon-print" onclick="print()"></div>
+<div class="siimple-btn icon-table" onclick="location.href='/archives/{{ year }}/synth.html';"></div>
+
+{% endblock %}
+
+{% block body %}
+<div class="siimple-h2">Relecture {{ 2020 }}</div>
+{% for book in books %}
+    <div id="book-card{{ book.id }}" class="siimple-card book-card {% if book.onrace %}onrace{% else %} noonrace {% endif %}">
+        <div class="siimple-card-header">
+        {{ book.idext }} - {{ book.title }} de <span class="siimple--text-italic">{{ book.author }}</span> - {% if book.average %}<span class="siimple-tag siimple-tag--success siimple-tag--rounded">{{ book.average }}</span>{% endif %}
+        </div>
+        <div class="siimple-card-body">
+            <div class="siimple-tip siimple-tip--primary siimple-tip--add no-background">
+                <table>
+                    <tr>
+                        <td><label class="siimple-label">Titre:</label></td>
+                        <td>{{ book.title }}</td>
+                    </tr>
+                    <tr>
+                        <td><label class="siimple-label">Auteur:</label></td>
+                        <td>{{ book.author }}</td>
+                    </tr>
+                    <tr>
+                        <td><label class="siimple-label">Année:</label></td>
+                        <td>{{ book.year }}</td>
+                    </tr>
+                    <tr>
+                        <td><label class="siimple-label">Id Mascarille:</label></td>
+                        <td>{{ book.idext }}</td>
+                    </tr>
+                </table>
+            </div>
+        {% for note in book.notes %}
+            <div id="note{{ note.id}}" class="siimple-tip no-background">
+                <div class="siimple--text-bold">
+                    <span class="siimple-tag siimple-tag--primary siimple-tag--rounded">{{ note.noteStr }}</span>
+                    <a class="no-decorate" href="/note/{{ note.id }}">{{ note.user.name }}</a>
+                </div>
+                <div class="withpre">{{ note.description }}</div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>  
+{% endfor %}
+{% endblock %}

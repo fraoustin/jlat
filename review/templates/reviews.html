@@ -13,7 +13,7 @@
 {% for book in books %}
     <div id="book-card{{ book.id }}" class="siimple-card book-card {% if book.onrace %}onrace{% else %} noonrace {% endif %}">
         <div class="siimple-card-header">
-        {{ book.idext }} - {{ book.title }} de <span class="siimple--text-italic">{{ book.author }}</span> - {% if book.average %}<span class="siimple-tag siimple-tag--success siimple-tag--rounded">{{ book.average }}</span>{% endif %}
+        {{ book.idext }} - {{ book.title }} de <span class="siimple--text-italic">{{ book.author }}</span> - {% if book.average %}<span class="siimple-tag siimple-tag--success siimple-tag--rounded">{{ book.average }}</span>{% endif %}{% if book.average %}  <span class="siimple-tag siimple-tag--primary siimple-tag--rounded">{{ book.notes|length }} relecteurs</span>{% endif %}
             <div class="no-print float-right ">
                 {% if current_user.isadmin %}
                 <div id="switchonrace{{ book.id }}" class="siimple-switch siimple-switch--success no-print float-right "><input type="checkbox" id="mySwitchOnrace{{ book.id }}" {% if book.onrace %}checked{% endif %} onclick="onrace('{{ book.id }}', 'book-card{{ book.id }}')"><label for="mySwitchOnrace{{ book.id }}"></label></div>

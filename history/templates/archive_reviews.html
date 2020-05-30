@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block navbar %}
-<a href="/"><div class="siimple-btn icon-close"></div></a>
+<a href="/archives/{{ year }}/index.html"><div class="siimple-btn icon-close"></div></a>
 <div class="siimple-btn icon-print" onclick="print()"></div>
 <div class="siimple-btn icon-table" onclick="location.href='/archives/{{ year }}/synth.html';"></div>
 
@@ -12,14 +12,22 @@
 {% for book in books %}
     <div id="book-card{{ book.id }}" class="siimple-card book-card {% if book.onrace %}onrace{% else %} noonrace {% endif %}">
         <div class="siimple-card-header">
-        {{ book.idext }} - {{ book.title }} de <span class="siimple--text-italic">{{ book.author }}</span> - {% if book.average %}<span class="siimple-tag siimple-tag--success siimple-tag--rounded">{{ book.average }}</span>{% endif %}
+        {{ book.idext }} - {{ book.title }} de <span class="siimple--text-italic">{{ book.author }}</span> - {% if book.average %}<span class="siimple-tag siimple-tag--success siimple-tag--rounded">{{ book.average }}</span>{% endif %}{% if book.average %}  <span class="siimple-tag siimple-tag--primary siimple-tag--rounded">{{ book.notes|length }} relecteurs</span>{% endif %}
         </div>
         <div class="siimple-card-body">
             <div class="siimple-tip siimple-tip--primary siimple-tip--add no-background">
-                <table>
+                <div id="tabs" class="siimple-tabs siimple-tabs--boxed">
+                    <div id='tab-tab1-{{ book.id }}' class="siimple-tabs-item siimple-tabs-item--selected" onclick="viewtab('tab1-{{ book.id }}', 'tab2-{{ book.id }}')">Général</div>
+                    <div id='tab-tab2-{{ book.id }}' class="siimple-tabs-item" onclick="viewtab('tab2-{{ book.id }}', 'tab1-{{ book.id }}')">Traduction</div>
+                </div>
+                <table id="tab1-{{ book.id }}">
                     <tr>
                         <td><label class="siimple-label">Titre:</label></td>
-                        <td>{{ book.title }}</td>
+                        {% if book.fileurl %}
+                            <td><a href="{{ book.fileurl }}" style="text-decoration: none; color: unset;">{{ book.title }}</a></td>
+                        {% else %}
+                            <td>{{ book.title }}</td>
+                        {% endif %}
                     </tr>
                     <tr>
                         <td><label class="siimple-label">Auteur:</label></td>
@@ -32,6 +40,52 @@
                     <tr>
                         <td><label class="siimple-label">Id Mascarille:</label></td>
                         <td>{{ book.idext }}</td>
+                    </tr>
+                    <tr>
+                        <td><label class="siimple-label">Courriel:</label></td>
+                        <td>{{ book.email }}</td>
+                    </tr>
+                    <tr>
+                        <td><label class="siimple-label">Telephone:</label></td>
+                        <td>{{ book.phone }}</td>
+                    </tr>
+                    <tr>
+                        <td><label class="siimple-label">Nationalité:</label></td>
+                        <td>{{ book.nationality }}</td>
+                    </tr>
+                    <tr>
+                        <td><label class="siimple-label">Adresse: </label></td>
+                        <td><div class="withpre">{{ book.address }}</div></td>
+                    </tr>
+                    <tr>
+                        <td><label class="siimple-label">Description: </label></td>
+                        <td><div class="withpre">{{ book.description }}</div></td>
+                    </tr>
+                </table>
+                <table id="tab2-{{ book.id }}" class="hidden">
+                    <tr>
+                        <td><label class="siimple-label">Nom du traducteur:</label></td>
+                        <td>{{ book.trad_lastname }}</td>
+                    </tr>
+                    <tr>
+                        <td><label class="siimple-label">Prénom du traducteur:</label></td>
+                        <td>{{ book.trad_firstname }}</td>
+                    </tr>
+                    <tr>
+                        <td><label class="siimple-label">Courriel du traducteur:</label></td>
+                        <td>{{ book.trad_email }}</td>
+                    </tr>
+                    <tr>
+                        <td><label class="siimple-label">Telephone du traducteur:</label></td>
+                        <td>{{ book.trad_phone }}</td>
+                    </tr>
+                    <tr>
+                        <td><label class="siimple-label">Nationalité du traducteur:</label></td>
+                        <td>{{ book.trad_nationality }}</td>
+                    </tr>
+                    <tr>
+                        <td><label class="siimple-label">Adresse du traducteur: </label></td>
+                        <td><div class="withpre">{{ book.trad_address }}</div></td>
                     </tr>
                 </table>
             </div>
@@ -47,4 +101,12 @@
         </div>
     </div>  
 {% endfor %}
+<script>
+    function viewtab(tabSelect, tabOtherOne){     
+        document.getElementById(tabOtherOne).classList.add('hidden');
+        document.getElementById(tabSelect).classList.remove('hidden');    
+        document.getElementById('tab-' + tabOtherOne).classList.remove('siimple-tabs-item--selected');
+        document.getElementById('tab-' + tabSelect).classList.add('siimple-tabs-item--selected');
+    };
+</script>
 {% endblock %}

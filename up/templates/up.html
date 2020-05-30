@@ -2,38 +2,40 @@
 
 {% block navbar %}
 <a href="/"><div class="siimple-btn icon-close"></div></a>
-<div class="siimple-btn icon-upload" onclick="window.document.formimport.submit()"></div>
+<div class="siimple-btn icon-upload" onclick="view_wait();window.document.formimport.submit()"></div>
 {% endblock %}
 
 {% block body %}
-<div class="siimple-h2">Import</div>
-<form action="/up"  method="POST" name="formimport"  enctype=multipart/form-data>
-    <table>
-        <tr>
-            <td><label class="siimple-label">Table: </label></td>
-            <td> 
-                <select class="siimple-select siimple-select--fluid" id="table" name="table" onchange="changeHeader()">
-                {% for table in tables %}
-                    <option value="{{ table }}" >{{ table }}</option>
-                {% endfor %}
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td><label class="siimple-label">Entête: </label></td>
-            <td id="labelHeader"></td>
-        </tr>
-        <tr>
-            <td><label class="siimple-label">Fichier: </label></td>
-            <td><div class="siimple-btn siimple-btn--success" onclick="document.getElementById('file').click()">Sélectionner un fichier</div><input type="file" name="file" id="file" accept="csv"  style="display: none" onchange="changeInput()"><div id="valueinput" style="display: inline; padding-left:10px;"></div></div></td>
-        </tr>
-    </table>
-</form>
+<div id="nowait">
+    <div class="siimple-h2">Import</div>
+    <form action="/up"  method="POST" name="formimport"  enctype=multipart/form-data>
+        <table>
+            <tr>
+                <td><label class="siimple-label">Table: </label></td>
+                <td> 
+                    <select class="siimple-select siimple-select--fluid" id="table" name="table" onchange="changeHeader()">
+                    {% for table in tables %}
+                        <option value="{{ table }}" >{{ table }}</option>
+                    {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><label class="siimple-label">Entête: </label></td>
+                <td id="labelHeader"></td>
+            </tr>
+            <tr>
+                <td><label class="siimple-label">Fichier: </label></td>
+                <td><div class="siimple-btn siimple-btn--success" onclick="document.getElementById('file').click()">Sélectionner un fichier</div><input type="file" name="file" id="file" accept="csv"  style="display: none" onchange="changeInput()"><div id="valueinput" style="display: inline; padding-left:10px;"></div></div></td>
+            </tr>
+        </table>
+    </form>
 
-<div class="siimple-h2">Purge</div>
-<form action="/purge"  method="POST" name="formpurge">
-    <div class="siimple-btn siimple-btn--error" onclick="window.document.formpurge.submit()">Supprime toutes les données</div>
-</form>
+    <div class="siimple-h2">Purge</div>
+    <form action="/purge"  method="POST" name="formpurge">
+        <div class="siimple-btn siimple-btn--error" onclick="view_wait();window.document.formpurge.submit()">Supprime toutes les données</div>
+    </form>
+</div>
 
 <script>
 function changeInput(){
@@ -59,4 +61,7 @@ function changeHeader(){
 
 changeHeader()
 </script>
+<div align="center" class="hidden" id="wait">
+    <div class="siimple-spinner siimple-spinner--primary siimple-h3"></div>
+</div>
 {% endblock %}

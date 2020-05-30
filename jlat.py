@@ -37,17 +37,17 @@ app.register_blueprint(Static(name="css", url_prefix="/css/", path=os.path.join(
 
 # register JLAT
 from book import Books
-app.register_blueprint(Books(url_prefix="/"))
+app.register_blueprint(Books(url_prefix="/", dir_books=os.path.join(JLAT_DIR, "files", "uploads", "book")))
 from note import Notes
 app.register_blueprint(Notes(url_prefix="/"))
 from review import Reviews
 app.register_blueprint(Reviews(url_prefix="/"))
 from up import Ups
-app.register_blueprint(Ups(url_prefix='/'))
+app.register_blueprint(Ups(url_prefix='/', dir_uploads=os.path.join(JLAT_DIR, "files", "uploads", "import")))
 from synth import Synth
 app.register_blueprint(Synth(url_prefix='/'))
 from history import History
-app.register_blueprint(History(url_prefix='/', archives=os.path.join(JLAT_PATH, "archives")))
+app.register_blueprint(History(url_prefix='/', archives=os.path.join(JLAT_DIR, "files", "archives")))
 from register import Register
 app.register_blueprint(Register(url_prefix='/'))
 

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block navbar %}
-<a href="/"><div class="siimple-btn icon-close"></div></a>
+<a href="/archives/{{ year }}/index.html"><div class="siimple-btn icon-close"></div></a>
 <div class="siimple-btn icon-download" onclick="export_table_to_csv('table', 'synth{{ year }}.csv');"></div>
 <div class="siimple-btn icon-medal" onclick="location.href='/archives/{{ year }}/reviews.html';"></div>
 

@@ -109,7 +109,7 @@ def upload():
 
 class Ups(Blueprint):
 
-    def __init__(self, name='up', import_name=__name__,dir_uploads="./uploads", *args, **kwargs):
+    def __init__(self, name='up', import_name=__name__, dir_uploads="./files/uploads/import", *args, **kwargs):
         Blueprint.__init__(self, name, import_name, template_folder='templates', *args, **kwargs)
         self.before_app_first_request(self._init)
         self.dir_uploads = dir_uploads

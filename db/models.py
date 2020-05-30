@@ -40,6 +40,19 @@ class Book(db.Model):
     lastmodifiedby = db.Column(db.String, nullable=True)
     lastmodified = db.Column(db.DateTime, nullable=True)
     onrace = db.Column(db.Boolean, nullable=False, default=True)
+    email = db.Column(db.String, nullable=True)
+    phone = db.Column(db.String, nullable=True)
+    nationality = db.Column(db.String, nullable=True)
+    address = db.Column(db.String, nullable=True)
+    fileurl = db.Column(db.String, nullable=True)
+    filepdf = db.Column(db.String, nullable=True)
+    fileepub = db.Column(db.String, nullable=True)
+    trad_lastname = db.Column(db.String, nullable=True)
+    trad_firstname = db.Column(db.String, nullable=True)
+    trad_email = db.Column(db.String, nullable=True)
+    trad_phone = db.Column(db.String, nullable=True)
+    trad_nationality = db.Column(db.String, nullable=True)
+    trad_address = db.Column(db.String, nullable=True)
 
     def __setattr__(self, name, value):
         if type(value) == str and len(value) == 0:
@@ -52,7 +65,10 @@ class Book(db.Model):
         return db.Model.__getattribute__(self, name)
     
     def save(self):
-        self.lastmodifiedby = current_user.name
+        try:
+            self.lastmodifiedby = current_user.name
+        except Exception as err:
+            self.lastmodifiedby = 'external'
         self.lastmodified = datetime.datetime.now()
         db.Model.save(self)
     
@@ -131,3 +147,40 @@ class Note(db.Model):
     @property
     def noteStr(self):
         return INVNOTATION.get(self.note, 'd')
+
+class Param(db.Model):
+    __tablename__ = 'param'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    key = db.Column(db.String, nullable=False)
+    module = db.Column(db.String, nullable=False)
+    value = db.Column(db.String, nullable=True)
+
+    @classmethod
+    def get(cls, module, key):
+        try:
+            return cls.query.filter_by(key=key).first()
+        except:
+            return None
+
+    @classmethod
+    def getValue(cls, module, key, default=""):
+        try:
+            return cls.query.filter_by(key=key).first().value
+        except:
+            return None
+
+class ParamRegister(Param):
+    __tablename__ = 'param'
+
+    @classmethod
+    def get(cls, key):
+        return Param.get('register', key)
+
+    @classmethod
+    def getValue(cls, key, default=""):
+        return Param.getValue('register', key, default)
+
+    def __setattr__(self, name, value):    
+        db.Model.__setattr__(self, name, value)
+        db.Model.__setattr__(self, 'module', 'register')

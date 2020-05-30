@@ -11,15 +11,61 @@
 
 {% block body %}
     <div class="siimple-h2">Livre : {{ book.title }}</div>
+    <div id="tabs" class="siimple-tabs siimple-tabs--boxed">
+        <div class="siimple-tabs-item siimple-tabs-item--selected" onclick="viewtab('tab1', this)">Général</div>
+        <div class="siimple-tabs-item" onclick="viewtab('tab2', this)">Traduction</div>
+    </div>
     {% if book.id != None %}
-    <form action="/book/{{ book.id }}"  method="POST" name="formupdate">
+    <form action="/book/{{ book.id }}"  method="POST" name="formupdate" enctype=multipart/form-data>
     {% else %}
-    <form action="/book"  method="POST" name="formupdate">
+    <form action="/book"  method="POST" name="formupdate" enctype=multipart/form-data>
     {% endif %}
-        <table>
+        <table id="tab1" class="tab">
             <tr>
                 <td><label class="siimple-label">Titre:</label></td>
                 <td><input name="title" id="title" class="siimple-input siimple-input--fluid" value="{{ book.title }}" required {% if not current_user.isadmin %}disabled{% endif %}></td>
+            </tr>
+            <tr>
+                <td><label class="siimple-label">Url:</label></td>
+                <td>
+                    <div style="display: flex;">
+                        <input name="fileurl" id="fileurl" class="siimple-input siimple-input--fluid" disabled value="{{ book.fileurl.split('/')[-1] }}">
+                        {% if current_user.isadmin %}
+                            <div class="siimple-btn siimple-btn--primary icon-upload" onclick="document.getElementById('file').click()"></div><input type="file" name="file" id="file" onchange="changeInput()"  style="display: none">
+                        {% endif %}
+                        {% if book.fileurl %}                            
+                            <div class="siimple-btn siimple-btn--success icon-download" onclick="location.href='/{{ book.fileurl }}';""></div>
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label class="siimple-label">Pdf:</label></td>
+                <td>
+                    <div style="display: flex;">
+                        <input name="filepdf" id="filepdf" class="siimple-input siimple-input--fluid" disabled value="{{ book.filepdf.split('/')[-1] }}">
+                        {% if current_user.isadmin %}
+                            <div class="siimple-btn siimple-btn--primary icon-upload" onclick="document.getElementById('filep').click()"></div><input type="file" name="filep" id="filep" onchange="changeInputp()"  style="display: none">
+                        {% endif %}
+                        {% if book.fileurl %}                            
+                            <div class="siimple-btn siimple-btn--success icon-download" onclick="location.href='/{{ book.filepdf }}';""></div>
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label class="siimple-label">Epub:</label></td>
+                <td>
+                    <div style="display: flex;">
+                        <input name="fileepub" id="fileepub" class="siimple-input siimple-input--fluid" disabled value="{{ book.fileepub.split('/')[-1] }}">
+                        {% if current_user.isadmin %}
+                            <div class="siimple-btn siimple-btn--primary icon-upload" onclick="document.getElementById('fileu').click()"></div><input type="file" name="fileu" id="fileu" onchange="changeInputu()"  style="display: none">
+                        {% endif %}
+                        {% if book.fileurl %}                            
+                            <div class="siimple-btn siimple-btn--success icon-download" onclick="location.href='/{{ book.fileepub }}';""></div>
+                        {% endif %}
+                    </div>
+                </td>
             </tr>
             <tr>
                 <td><label class="siimple-label">Auteur:</label></td>
@@ -38,11 +84,99 @@
                 <td><div class="siimple-switch"><input type="checkbox" id="onrace" name="onrace" {% if book.onrace %}checked{% endif %} {% if not current_user.isadmin %}disabled{% endif %}><label for="onrace"></label></div></td>
             </tr>
             <tr>
+                <td><label class="siimple-label">Courriel:</label></td>
+                <td><input name="email" id="email" type="email" class="siimple-input siimple-input--fluid" value="{{ book.email }}" required></td>
+            </tr>
+            <tr>
+                <td><label class="siimple-label">Telephone:</label></td>
+                <td><input name="phone" id="phone" class="siimple-input siimple-input--fluid" value="{{ book.phone }}" required></td>
+            </tr>
+            <tr>
+                <td><label class="siimple-label">Nationalité:</label></td>
+                <td><input name="nationality" id="nationality" class="siimple-input siimple-input--fluid" value="{{ book.nationality }}" required></td>
+            </tr>
+            <tr>
+                <td><label class="siimple-label">Adresse: </label></td>
+                <td><textarea id="address" name="address" class="siimple-textarea" size="40" rows="5">{{ book.address }}</textarea></td>
+            </tr>
+            <tr>
                 <td><label class="siimple-label">Description: </label></td>
                 <td><textarea id="description" name="description" class="siimple-textarea" size="40" rows="10" {% if not current_user.isadmin %}disabled{% endif %}>{{ book.description }}</textarea></td>
+            </tr>
+        </table>
+        <table id="tab2" class="tab">
+            <tr>
+                <td><label class="siimple-label">Nom du traducteur:</label></td>
+                <td><input name="trad_lastname" id="trad_lastname" class="siimple-input siimple-input--fluid" value="{{ book.trad_lastname }}"></td>
+            </tr>
+            <tr>
+                <td><label class="siimple-label">Prénom du traducteur:</label></td>
+                <td><input name="trad_firstname" id="trad_firstname" class="siimple-input siimple-input--fluid" value="{{ book.trad_firstname }}"></td>
+            </tr>
+            <tr>
+                <td><label class="siimple-label">Courriel du traducteur:</label></td>
+                <td><input name="trad_email" id="trad_email" type="email" class="siimple-input siimple-input--fluid" value="{{ book.trad_email }}"></td>
+            </tr>
+            <tr>
+                <td><label class="siimple-label">Telephone du traducteur:</label></td>
+                <td><input name="trad_phone" id="trad_phone" class="siimple-input siimple-input--fluid" value="{{ book.trad_phone }}"></td>
+            </tr>
+            <tr>
+                <td><label class="siimple-label">Nationalité du traducteur:</label></td>
+                <td><input name="trad_nationality" id="trad_nationality" class="siimple-input siimple-input--fluid" value="{{ book.trad_nationality }}"></td>
+            </tr>
+            <tr>
+                <td><label class="siimple-label">Adresse du traducteur: </label></td>
+                <td><textarea id="trad_address" name="trad_address" class="siimple-textarea" size="40" rows="5">{{ book.trad_address }}</textarea></td>
             </tr>
         </table>
     </form>
     <form action="/delbook/{{ book.id }}"  method="POST" name="formdel">
     </form>
+    <script>
+        function viewtab(tab, elt){            
+            var tabs = document.querySelectorAll(".tab");
+            for (var j = 0; j < tabs.length; j++) 
+                tabs[j].classList.add('hidden');
+            document.getElementById(tab).classList.remove('hidden');            
+            var items = document.querySelectorAll(".siimple-tabs-item--selected");
+            for (var j = 0; j < items.length; j++) 
+                items[j].classList.remove('siimple-tabs-item--selected');
+            elt.classList.add('siimple-tabs-item--selected');
+        };
+        viewtab('tab1', document.querySelectorAll(".siimple-tabs-item")[0]);
+        function changeInput(){
+            var fullPath = document.getElementById('file').value;
+            if (fullPath) {
+                var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
+                var filename = fullPath.substring(startIndex);
+                if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
+                    filename = filename.substring(1);
+                }
+                document.getElementById('fileurl').value=filename;
+            }
+        }
+        function changeInputp(){
+            var fullPath = document.getElementById('filep').value;
+            if (fullPath) {
+                var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
+                var filename = fullPath.substring(startIndex);
+                if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
+                    filename = filename.substring(1);
+                }
+                document.getElementById('filepdf').value=filename;
+            }
+        }
+        function changeInputu(){
+            var fullPath = document.getElementById('fileu').value;
+            if (fullPath) {
+                var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
+                var filename = fullPath.substring(startIndex);
+                if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
+                    filename = filename.substring(1);
+                }
+                document.getElementById('fileepub').value=filename;
+            }
+        }
+    </script>
 {% endblock %}

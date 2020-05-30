@@ -1,10 +1,59 @@
 {% extends 'base.html' %}
 {% block navbar %}
 <a href="/"><div class="siimple-btn icon-close"></div></a>
+{% if current_user.isadmin %}
+<div class="siimple-btn icon-save" onclick="window.document.formupdate.submit()"></div>
+{% endif %}
 {% endblock %}
 
 {% block body %}
-    <div id="register" class="content-center">
-        register
-    </div>
+    <div class="siimple-h2">Inscription</div>
+    <form action="/register"  method="POST" name="formupdate">
+        <table>
+            <tr>
+                <td><label class="siimple-label">Concours ouvert:</label></td>                
+                <td><div class="siimple-switch"><input type="checkbox" id="opened" name="opened" {% if opened %}checked{% endif %} ><label for="opened"></label></div></td>
+            </tr>
+            <tr>
+                <td><label class="siimple-label">Année:</label></td>
+                <td><input name="year" id="year" class="siimple-input siimple-input--fluid" value="{{ year }}" required></td>
+            </tr>
+            <tr>
+                <td><label class="siimple-label">Entête: </label></td>
+                <td><textarea id="head" name="head" class="siimple-textarea" size="40" rows="10">{{ head }}</textarea></td>
+            </tr>
+            <tr>
+                <td><label class="siimple-label">Pied: </label></td>
+                <td><textarea id="foot" name="foot" class="siimple-textarea" size="40" rows="10">{{ foot }}</textarea></td>
+            </tr>
+            <tr>
+                <td><label class="siimple-label">SMTP url:</label></td>
+                <td><input name="smtpurl" id="smtpurl" class="siimple-input siimple-input--fluid" value="{{ smtpurl }}"></td>
+            </tr>
+            <tr>
+                <td><label class="siimple-label">SMTP port:</label></td>
+                <td><input name="smtpport" id="smtpport" class="siimple-input siimple-input--fluid" value="{{ smtpport }}"></td>
+            </tr>
+            <tr>
+                <td><label class="siimple-label">SMTP email:</label></td>
+                <td><input name="smtpemail" id="smtpemail" class="siimple-input siimple-input--fluid" value="{{ smtpemail }}"></td>
+            </tr>
+            <tr>
+                <td><label class="siimple-label">SMTP email cc:</label></td>
+                <td><input name="smtpemailcc" id="smtpemailcc" class="siimple-input siimple-input--fluid" value="{{ smtpemailcc }}"></td>
+            </tr>
+            <tr>
+                <td><label class="siimple-label">SMTP password:</label></td>
+                <td><input name="smtppassword" id="smtppassword" type="password"  class="siimple-input siimple-input--fluid" value="{{ smtppassword }}"></td>
+            </tr>
+            <tr>
+                <td><label class="siimple-label">SMTP Subject: </label></td>
+                <td><input name="smtpsubject" id="smtpsubject" class="siimple-input siimple-input--fluid" value="{{ smtpsubject }}"></td>
+            </tr>
+            <tr>
+                <td><label class="siimple-label">SMTP Message: </label></td>
+                <td><textarea id="smtpmsg" name="smtpmsg" class="siimple-textarea" size="40" rows="10">{{ smtpmsg }}</textarea></td>
+            </tr>
+        </table>
+    </form>
 {% endblock %}

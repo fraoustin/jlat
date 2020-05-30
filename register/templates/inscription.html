@@ -1,0 +1,189 @@
+<html>
+    <head>
+        <title>Inscription JLAT</title>
+        <link rel="shortcut icon" href="/css/favicon.ico" type="image/x-icon" />
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimal-ui" />
+        <!-- siimple -->
+        <link rel="stylesheet" href="/siimple/siimple.min.css">
+        <!-- jalt -->
+        <link rel="stylesheet" href="/css/jlat.css">
+    <style type="text/css">
+    body {
+        padding-left: 8%;
+        padding-right: 8%;
+        padding-top: 10px;
+    }
+    form {
+        padding-top: 10px;
+    }
+    </style> 
+    </head>
+    <body>
+
+        <div id="head">{{ head|safe }}</div>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                <div class="general siimple-tip siimple-tip--{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        {% if opened %}
+        <div id="nowait">
+            <form action="/inscription"  method="POST" name="formupdate" enctype=multipart/form-data>
+                <div class="siimple-tip siimple-tip--primary no-background">
+                    <table>
+                        <tr>
+                            <td><label class="siimple-label">Titre:</label></td>
+                            <td><input name="title" id="title" class="siimple-input siimple-input--fluid" value="" required></td>
+                        </tr>
+                        <tr>
+                            <td><label class="siimple-label">Nom:</label></td>
+                            <td><input name="lastname" id="lastname" class="siimple-input siimple-input--fluid" value="" required></td>
+                        </tr>
+                        <tr>
+                            <td><label class="siimple-label">Prénom:</label></td>
+                            <td><input name="firstname" id="firstname" class="siimple-input siimple-input--fluid" value="" required></td>
+                        </tr>
+                        <tr>
+                            <td><label class="siimple-label">Courriel:</label></td>
+                            <td><input name="email" id="email" type="email" class="siimple-input siimple-input--fluid" value="" required></td>
+                        </tr>
+                        <tr>
+                            <td><label class="siimple-label">Telephone:</label></td>
+                            <td><input name="phone" id="phone" class="siimple-input siimple-input--fluid" value="" required></td>
+                        </tr>
+                        <tr>
+                            <td><label class="siimple-label">Nationalité:</label></td>
+                            <td><input name="nationality" id="nationality" class="siimple-input siimple-input--fluid" value="" required></td>
+                        </tr>
+                        <tr>
+                            <td><label class="siimple-label">Adresse: </label></td>
+                            <td><textarea id="address" name="address" class="siimple-textarea" size="40" rows="5"></textarea></td>
+                        </tr>
+                        <tr>
+                            <td><label class="siimple-label">Votre manuscript: </label></td>
+                            <td><div class="siimple-btn siimple-btn--primary" onclick="document.getElementById('file').click()">Sélectionner un fichier pdf, doc ou epub</div><input type="file" name="file" id="file" style="display: none" onchange="changeInput()"><div id="valueinput" style="display: inline; padding-left:10px;"></div></div></td>
+                        </tr>
+                    </table>
+                </div>
+                <div>
+                    <div class="siimple-checkbox siimple-checkbox--success">
+                        <input type="checkbox" id="tradSwitch" onclick="viewtrad();">
+                        <label for="tradSwitch"></label>
+                    </div>
+                    <label class="siimple-label">Il s’agit d’une pièce traduite</label>
+                </div>
+                <div class="siimple-tip siimple-tip--success no-background hidden" id="trad">
+                    <table>
+                        <tr>
+                            <td><label class="siimple-label">Nom du traducteur:</label></td>
+                            <td><input name="trad_lastname" id="trad_lastname" class="siimple-input siimple-input--fluid" value=""></td>
+                        </tr>
+                        <tr>
+                            <td><label class="siimple-label">Prénom du traducteur:</label></td>
+                            <td><input name="trad_firstname" id="trad_firstname" class="siimple-input siimple-input--fluid" value=""></td>
+                        </tr>
+                        <tr>
+                            <td><label class="siimple-label">Courriel du traducteur:</label></td>
+                            <td><input name="trad_email" id="trad_email" type="email" class="siimple-input siimple-input--fluid" value=""></td>
+                        </tr>
+                        <tr>
+                            <td><label class="siimple-label">Telephone du traducteur:</label></td>
+                            <td><input name="trad_phone" id="trad_phone" class="siimple-input siimple-input--fluid" value=""></td>
+                        </tr>
+                        <tr>
+                            <td><label class="siimple-label">Nationalité du traducteur:</label></td>
+                            <td><input name="trad_nationality" id="trad_nationality" class="siimple-input siimple-input--fluid" value=""></td>
+                        </tr>
+                        <tr>
+                            <td><label class="siimple-label">Adresse du traducteur: </label></td>
+                            <td><textarea id="trad_address" name="trad_address" class="siimple-textarea" size="40" rows="5"></textarea></td>
+                        </tr>
+                    </table>
+                </div>
+                <div>
+                    <div class="siimple-checkbox siimple-checkbox--success">
+                        <input type="checkbox" id="oriSwitch"  onclick="viewori();">
+                        <label for="oriSwitch"></label>
+                    </div>
+                    <label class="siimple-label">Des informations supplémentaires à nous communiquer?</label>
+                </div>
+                <div class="siimple-tip siimple-tip--success no-background hidden" id="ori">
+                    <table>
+                        <tr>
+                            <td></td>
+                            <td><textarea id="description" name="description" class="siimple-textarea" size="40" rows="10"></textarea></td>
+                        </tr>
+                    </table>
+                </div>
+                <label class="siimple-label">Engagement sur l’honneur et autorisation</label>
+                <div class="siimple-tip siimple-tip--warning no-background">
+                    <table>
+                        <tr>
+                            <td><div class="siimple-checkbox siimple-checkbox--warning"><input type="checkbox" id="checkone" onclick="checkform()"><label for="checkone"></label></div></td>
+                            <td>Ce texte n’a pas été publié en langue française à la date de clôture du concours.</td>
+                        </tr>
+                        <tr>
+                            <td><div class="siimple-checkbox siimple-checkbox--warning"><input type="checkbox" id="checktwo" onclick="checkform()"><label for="checktwo"></label></div></td>
+                            <td>Il n’a pas fait l’objet d’une mise en scène professionnelle en langue française à la date de clôture du concours.<br/>Il s’agit d’une œuvre originale, en conséquence, toute citation ou emprunt partiel doit faire l’objet d’une typographie spécifique (« entre guillemets », italiques… par exemple) avec les références précises des textes utilisés.</td>
+                        </tr>
+                        <tr>
+                            <td><div class="siimple-checkbox siimple-checkbox--warning"><input type="checkbox" id="checkthree" onclick="checkform()"><label for="checkthree"></label></div></td>
+                            <td>J’autorise l’association « Les Journées de Lyon des Auteurs de théâtre » à faire éventuellement circuler mon manuscrit auprès du réseau des écritures contemporaines (Essentiellement les comités de lecture francophones).</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="siimple-footer" align="center">
+                    <div class="siimple-btn siimple-btn--success siimple-btn--disabled" id="btnvalid" onclick="view_wait();window.document.formupdate.submit()">Je valide mon inscription</div>
+                </div>
+            </form>
+        </div>
+        <div align="center" class="hidden" id="wait">
+            <div class="siimple-spinner siimple-spinner--primary siimple-h3"></div>
+        </div>
+        {% endif %}
+        <div id="foot">{{ foot|safe }}</div>
+        <div align="center" class="hidden" id="wait">
+            <div class="siimple-spinner siimple-spinner--primary siimple-h3"></div>
+        </div>
+        <script>
+            function viewtrad(){
+                if (document.getElementById('trad').classList.contains('hidden')) {
+                    document.getElementById('trad').classList.remove('hidden');
+                } else {
+                    document.getElementById('trad').classList.add('hidden');
+                }
+            };
+            function viewori(){
+                if (document.getElementById('ori').classList.contains('hidden')) {
+                    document.getElementById('ori').classList.remove('hidden');
+                } else {
+                    document.getElementById('ori').classList.add('hidden');
+                }
+            };
+            function changeInput(){
+                var fullPath = document.getElementById('file').value;
+                if (fullPath) {
+                    var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
+                    var filename = fullPath.substring(startIndex);
+                    if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
+                        filename = filename.substring(1);
+                    }
+                    document.getElementById('valueinput').innerText=filename;
+                }
+            };
+            function checkform(){             
+                if (document.getElementById('checkone').checked == true && document.getElementById('checktwo').checked == true && document.getElementById('checkthree').checked == true ){
+                    document.getElementById('btnvalid').classList.remove('siimple-btn--disabled');
+                } else {
+                    document.getElementById('btnvalid').classList.add('siimple-btn--disabled');
+                }
+            };
+            function view_wait() {
+                document.getElementById("nowait").classList.add("hidden");
+                document.getElementById("wait").classList.remove("hidden");
+            }
+        </script>
+    </body>
+</html>

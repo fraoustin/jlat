@@ -4,9 +4,9 @@ __pycache__
 # ignore pip file
 /dist
 /tests
-/uploads
 /*.egg-info
 # ignore file swp vi
 *.swp
 
 jlat.db
+/files/uploads

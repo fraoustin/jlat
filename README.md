@@ -39,3 +39,5 @@ add columns in database
 > ALTER TABLE book ADD COLUMN trad_phone VARCHAR;
 > ALTER TABLE book ADD COLUMN trad_nationality VARCHAR;
 > ALTER TABLE book ADD COLUMN trad_address VARCHAR;
+
+Create dir files/archives

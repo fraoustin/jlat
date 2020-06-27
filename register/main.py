@@ -5,6 +5,7 @@ from werkzeug.utils import secure_filename
 import os
 import datetime
 import unidecode
+import random
 
 from db import db
 from db.models import Book
@@ -16,7 +17,7 @@ from email.mime.text import MIMEText
 
 PARAMS = ['opened', 'year', 'head', 'foot', 'smtpurl', 'smtpemail', 'smtpemailcc', 'smtppassword', 'smtpmsg', 'smtpport', 'smtpsubject']
 
-ALLOWED_EXTENSIONS = ['pdf', 'doc', 'docx']
+ALLOWED_EXTENSIONS = ['doc', 'docx']
 
 
 def allowed_file(filename):
@@ -28,7 +29,9 @@ def inscription():
     opened = ParamRegister.getValue('opened')
     head = ParamRegister.getValue('head')
     foot = ParamRegister.getValue('foot')
-    return render_template('inscription.html', opened=opened, head=head, foot=foot)
+    factorOne = random.randint(0, 10)
+    factorTwo = random.randint(0, 10)
+    return render_template('inscription.html', opened=opened, head=head, foot=foot, factorone=factorOne, factortwo=factorTwo)
 
 
 def add():
@@ -37,6 +40,9 @@ def add():
         if opened != 'on':
             flash("Le concours n'est pas ouvert", 'warning')
             raise ValueError('is not opened')
+        if int(request.form['factorone'])*int(request.form['factortwo']) != int(request.form['captcha']):
+            flash("Il y a une erreur dans votre multiplication", 'warning')
+            raise ValueError('captcha')
         if len(request.form['email']) == 0:
             flash('Vous devez ajouter votre email', 'warning')
             raise ValueError('no email')
@@ -70,7 +76,7 @@ def add():
             filename = secure_filename(file.filename)
             pathfile = os.path.join(current_app.config['BOOK_FOLDER'], datetime.datetime.now().strftime('%Y%m%d%H%M%S') + unidecode.unidecode(filename))
             file.save(pathfile)
-            fileurl = pathfile
+            fileurl = '/uploads' + pathfile.split('/uploads')[1]
         
         books = Book.all(sortby=Book.idext)
         if len(books) == 0:

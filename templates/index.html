@@ -23,19 +23,20 @@
             <a href="/register" class="no-decorate siimple--color-warning"><div class="icon icon-flag"></div></a>
         </div>
     </div>
+
+    <div class="shortcut siimple-card siimple--display-inline-block" style="max-width:33%;">
+        <div class="siimple-card-header">Notes</div>
+        <div class="siimple-card-body" align="left">
+            <a href="/notes" class="no-decorate siimple--color-primary"><div class="icon icon-edit"></div></a>
+        </div>
+    </div>
+
     {% endif %}
 
     <div class="shortcut siimple-card siimple--display-inline-block" style="max-width:33%;">
         <div class="siimple-card-header">Livres</div>
         <div class="siimple-card-body" align="left">
             <a href="/books" class="no-decorate siimple--color-primary"><div class="icon icon-book"></div></a>
-        </div>
-    </div>
-
-    <div class="shortcut siimple-card siimple--display-inline-block" style="max-width:33%;">
-        <div class="siimple-card-header">Notes</div>
-        <div class="siimple-card-body" align="left">
-            <a href="/notes" class="no-decorate siimple--color-primary"><div class="icon icon-edit"></div></a>
         </div>
     </div>
 
@@ -67,12 +68,14 @@
         </div>
     </div>
 
+    {% if current_user.isadmin %}
     <div class="shortcut siimple-card siimple--display-inline-block" style="max-width:33%;">
         <div class="siimple-card-header">Au sujet de</div>
         <div class="siimple-card-body" align="left">
             <a href="/info" class="no-decorate siimple--color-primary"><div class="icon icon-info"></div></a>
         </div>
     </div>
+    {% endif %}
 </div>
 <div align="center" class="hidden" id="wait">
     <div class="siimple-spinner siimple-spinner--primary siimple-h3"></div>

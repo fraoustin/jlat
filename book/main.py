@@ -56,21 +56,21 @@ def create():
         filename = secure_filename(file.filename)
         pathfile = os.path.join(current_app.config['BOOK_FOLDER'], datetime.datetime.now().strftime('%Y%m%d%H%M%S') + unidecode.unidecode(filename))
         file.save(pathfile)
-        fileurl = pathfile
+        fileurl = '/uploads' + pathfile.split('/uploads')[1]
     
     filep = request.files['filep']
     if filep:
         filename = secure_filename(file.filename)
         pathfile = os.path.join(current_app.config['BOOK_FOLDER'], datetime.datetime.now().strftime('%Y%m%d%H%M%S') + unidecode.unidecode(filename))
         filep.save(pathfile)
-        filepdf = pathfile
+        filepdf = '/uploads' + pathfile.split('/uploads')[1]
     
     fileu = request.files['fileu']
     if fileu:
         filename = secure_filename(file.filename)
         pathfile = os.path.join(current_app.config['BOOK_FOLDER'], datetime.datetime.now().strftime('%Y%m%d%H%M%S') + unidecode.unidecode(filename))
         fileu.save(pathfile)
-        fileepub = pathfile
+        fileepub = '/uploads' + pathfile.split('/uploads')[1]
 
     book = Book(title=title, 
         description=description,
@@ -122,21 +122,21 @@ def update(id):
             filename = secure_filename(file.filename)
             pathfile = os.path.join(current_app.config['BOOK_FOLDER'], datetime.datetime.now().strftime('%Y%m%d%H%M%S') + unidecode.unidecode(filename))
             file.save(pathfile)
-            book.fileurl = pathfile
+            book.fileurl = '/uploads' + pathfile.split('/uploads')[1]
     
         filep = request.files['filep']
         if filep:
             filename = secure_filename(filep.filename)
             pathfile = os.path.join(current_app.config['BOOK_FOLDER'], datetime.datetime.now().strftime('%Y%m%d%H%M%S') + unidecode.unidecode(filename))
             filep.save(pathfile)
-            book.filepdf = pathfile
+            book.filepdf = '/uploads' + pathfile.split('/uploads')[1]
         
         fileu = request.files['fileu']
         if fileu:
             filename = secure_filename(fileu.filename)
             pathfile = os.path.join(current_app.config['BOOK_FOLDER'], datetime.datetime.now().strftime('%Y%m%d%H%M%S') + unidecode.unidecode(filename))
             fileu.save(pathfile)
-            book.fileepub = pathfile
+            book.fileepub = '/uploads' + pathfile.split('/uploads')[1]
         book.save()
         flash('Book "%s" is saved' % book.title,'success')
         return redirect(url_for('book.update_book', id=book.id))

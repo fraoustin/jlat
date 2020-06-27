@@ -63,7 +63,7 @@
                         </tr>
                         <tr>
                             <td><label class="siimple-label">Votre manuscript: </label></td>
-                            <td><div class="siimple-btn siimple-btn--primary" onclick="document.getElementById('file').click()">Sélectionner un fichier pdf, doc ou epub</div><input type="file" name="file" id="file" style="display: none" onchange="changeInput()"><div id="valueinput" style="display: inline; padding-left:10px;"></div></div></td>
+                            <td><div class="siimple-btn siimple-btn--primary" onclick="document.getElementById('file').click()">Sélectionner un fichier doc</div><input type="file" name="file" id="file" style="display: none" onchange="changeInput()"><div id="valueinput" style="display: inline; padding-left:10px;"></div></div></td>
                         </tr>
                     </table>
                 </div>
@@ -131,6 +131,16 @@
                         <tr>
                             <td><div class="siimple-checkbox siimple-checkbox--warning"><input type="checkbox" id="checkthree" onclick="checkform()"><label for="checkthree"></label></div></td>
                             <td>J’autorise l’association « Les Journées de Lyon des Auteurs de théâtre » à faire éventuellement circuler mon manuscrit auprès du réseau des écritures contemporaines (Essentiellement les comités de lecture francophones).</td>
+                        </tr>
+                    </table>
+                    <table>
+                        <tr>
+                            <td><label class="siimple-label">Combien font <label class="siimple--color-success">{{ factorone }}</label> multiplié par <label class="siimple--color-error">{{ factortwo }}</label>:</label></td>
+                            <td><input name="captcha" id="captcha" class="siimple-input siimple-input--fluid" value=""></td>
+                        </tr>
+                        <tr class="hidden">
+                            <td><input name="factorone" id="factorone" class="siimple-input siimple-input--fluid" value="{{ factorone }}"></td>
+                            <td><input name="factortwo" id="factortwo" class="siimple-input siimple-input--fluid" value="{{ factortwo }}"></td>
                         </tr>
                     </table>
                 </div>

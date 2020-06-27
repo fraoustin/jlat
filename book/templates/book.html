@@ -34,7 +34,7 @@
                             <div class="siimple-btn siimple-btn--primary icon-upload" onclick="document.getElementById('file').click()"></div><input type="file" name="file" id="file" onchange="changeInput()"  style="display: none">
                         {% endif %}
                         {% if book.fileurl %}                            
-                            <div class="siimple-btn siimple-btn--success icon-download" onclick="location.href='/{{ book.fileurl }}';""></div>
+                            <div class="siimple-btn siimple-btn--success icon-download" onclick="location.href='{{ book.fileurl }}';""></div>
                         {% endif %}
                     </div>
                 </td>
@@ -47,8 +47,8 @@
                         {% if current_user.isadmin %}
                             <div class="siimple-btn siimple-btn--primary icon-upload" onclick="document.getElementById('filep').click()"></div><input type="file" name="filep" id="filep" onchange="changeInputp()"  style="display: none">
                         {% endif %}
-                        {% if book.fileurl %}                            
-                            <div class="siimple-btn siimple-btn--success icon-download" onclick="location.href='/{{ book.filepdf }}';""></div>
+                        {% if book.filepdf %}                            
+                            <div class="siimple-btn siimple-btn--success icon-download" onclick="location.href='{{ book.filepdf }}';""></div>
                         {% endif %}
                     </div>
                 </td>
@@ -61,8 +61,8 @@
                         {% if current_user.isadmin %}
                             <div class="siimple-btn siimple-btn--primary icon-upload" onclick="document.getElementById('fileu').click()"></div><input type="file" name="fileu" id="fileu" onchange="changeInputu()"  style="display: none">
                         {% endif %}
-                        {% if book.fileurl %}                            
-                            <div class="siimple-btn siimple-btn--success icon-download" onclick="location.href='/{{ book.fileepub }}';""></div>
+                        {% if book.fileepub %}                            
+                            <div class="siimple-btn siimple-btn--success icon-download" onclick="location.href='{{ book.fileepub }}';""></div>
                         {% endif %}
                     </div>
                 </td>

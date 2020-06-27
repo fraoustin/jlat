@@ -17,7 +17,7 @@
       </div>
       <div class="siimple-field">
         <div class="siimple-field-label">Your password</div>
-        <input name="password" id="password" type="password" class="siimple-input siimple-input--fluid" placeholder="password">
+        <input name="password" id="password" type="password" class="siimple-input siimple-input--fluid" placeholder="password" onKeyPress="if(event.keyCode == 13) document.querySelector('form').submit();">
       </div>
       {% with messages = get_flashed_messages(with_categories=true) %}
           {% if messages %}

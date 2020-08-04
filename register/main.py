@@ -17,7 +17,7 @@ from email.mime.text import MIMEText
 
 PARAMS = ['opened', 'year', 'head', 'foot', 'smtpurl', 'smtpemail', 'smtpemailcc', 'smtppassword', 'smtpmsg', 'smtpport', 'smtpsubject']
 
-ALLOWED_EXTENSIONS = ['doc', 'docx']
+ALLOWED_EXTENSIONS = ['doc', 'docx', 'odt']
 
 
 def allowed_file(filename):

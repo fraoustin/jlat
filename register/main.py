@@ -59,7 +59,7 @@ def add():
         title = request.form['title']
         author = request.form['lastname'] + ' ' + request.form['firstname']
         year = ParamRegister.getValue('year')
-        email = request.form['email']
+        email = ';'.join(request.form['email'].strip().split(' '))
         phone = request.form['phone']
         nationality = request.form['nationality']
         address = request.form['address']

@@ -239,3 +239,18 @@ class ParamRegister(Param):
     def __setattr__(self, name, value):    
         db.Model.__setattr__(self, name, value)
         db.Model.__setattr__(self, 'module', 'register')
+
+class ParamApp(Param):
+    __tablename__ = 'param'
+
+    @classmethod
+    def get(cls, key):
+        return Param.get('app', key)
+
+    @classmethod
+    def getValue(cls, key, default=""):
+        return Param.getValue('app', key, default)
+
+    def __setattr__(self, name, value):    
+        db.Model.__setattr__(self, name, value)
+        db.Model.__setattr__(self, 'module', 'app')

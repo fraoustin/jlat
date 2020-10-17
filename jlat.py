@@ -6,6 +6,7 @@ from db import db
 from auth import Auth, login_required
 from info import Info
 from static import Static
+from paramapplication import ParamApplication
 
 toBoolean = {'true': True, 'false':False}
 
@@ -16,6 +17,11 @@ JLAT_DIR = os.environ.get('JLAT_DIR', os.path.dirname(os.path.abspath(__file__))
 
 app = Flask(__name__)
 app.config["VERSION"] = "2.0.2"
+
+app.config["APP_PORT"] = JLAT_PORT
+app.config["APP_HOST"] = JLAT_HOST
+app.config["APP_DEBUG"] = JLAT_DEBUG
+app.config["APP_DIR"] = JLAT_DIR
 
 # db SQLAlchemy
 database_file = "sqlite:///{}".format(os.path.join(JLAT_DIR, "jlat.db"))
@@ -28,12 +34,13 @@ app.config['APP_NAME'] = os.environ.get('JLAT_NAME', 'SIGAL')
 app.config['APP_DESC'] = os.environ.get('JLAT_DESC', 'Système Informatisé de Gestion des Appréciations de Lecteurs')
 # register Info
 app.register_blueprint(Info(url_prefix="/"))
-
 # register Static
 JLAT_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'files')
 app.register_blueprint(Static(name="js", url_prefix="/javascripts/", path=os.path.join(JLAT_PATH, "javascripts")))
 app.register_blueprint(Static(name="siimple", url_prefix="/siimple/", path=os.path.join(JLAT_PATH, "siimple")))
 app.register_blueprint(Static(name="css", url_prefix="/css/", path=os.path.join(JLAT_PATH, "css")))
+# register ParamApplication
+app.register_blueprint(ParamApplication(url_prefix="/"))
 
 # register JLAT
 from book import Books

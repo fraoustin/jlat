@@ -43,7 +43,7 @@ def create():
     note.description = request.form['description']
     note.save()
     flash('Note is created', 'success')
-    return redirect(url_for('note.update_note', id=note.id))
+    return redirect(url_for('note.view_note', id=note.id))
 
 
 @login_required
@@ -57,7 +57,7 @@ def update(id):
         note.checked = getBool.get(request.form.get('checked','off'),False)
         note.save()
         flash('Note is saved', 'success')
-        return redirect(url_for('note.update_note', id=note.id))
+        return redirect(url_for('note.view_note', id=note.id))
     else:
         flash('Note doesn\'t exist','error')
         return redirect(url_for('note.notes'))

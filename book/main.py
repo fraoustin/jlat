@@ -93,7 +93,7 @@ def create():
         trad_address=trad_address)
     book.save()
     flash('Book "%s" is created' % title, 'success')
-    return redirect(url_for('book.update_book', id=book.id))
+    return redirect(url_for('book.view_book', id=book.id))
 
 
 @login_required
@@ -139,7 +139,7 @@ def update(id):
             book.fileepub = '/uploads' + pathfile.split('/uploads')[1]
         book.save()
         flash('Book "%s" is saved' % book.title,'success')
-        return redirect(url_for('book.update_book', id=book.id))
+        return redirect(url_for('book.view_book', id=book.id))
     else:
         flash('Book doesn\'t exist','error')
         return redirect(url_for('book.books'))

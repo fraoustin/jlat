@@ -3,8 +3,6 @@ import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from db import db
 
-from auth import User
-
 NOTATION = {'A':9,
             'Aa':8,
             'a':7,

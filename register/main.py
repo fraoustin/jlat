@@ -111,7 +111,12 @@ def add():
 
 def send_mail(book):
     Fromadd = ParamRegister.getValue('smtpemail')
-    Toadd = book.email
+    to = []
+    if len(book.email) > 0:
+        to.append(book.email)
+    if len(book.trad_email) > 0:
+        to.append(book.trad_email)
+    Toadd = ",".join(to)
     bcc = ParamRegister.getValue('smtpemail')
     message = MIMEMultipart()
     message['From'] = Fromadd
@@ -122,7 +127,7 @@ def send_mail(book):
     serveur = smtplib.SMTP(ParamRegister.getValue('smtpurl'), int(ParamRegister.getValue('smtpport')))
     serveur.starttls()
     serveur.login(Fromadd, ParamRegister.getValue('smtppassword'))
-    serveur.sendmail(Fromadd, Toadd, message.as_string())
+    serveur.sendmail(Fromadd, Toadd.split(','), message.as_string())
     serveur.quit()
 
 @login_required

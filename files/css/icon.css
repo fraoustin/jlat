@@ -25,7 +25,8 @@
 .icon-filter,
 .icon-table,
 .icon-history,
-.icon-flag {
+.icon-flag,
+.icon-param {
     font-family: icomoon;
     speak: none;
     font-style: normal;
@@ -53,7 +54,7 @@
 }
 
 .icon-info:before {
-    content: "\e903"
+    content: "\ea0c"
 }
 
 .icon-close:before {
@@ -110,4 +111,8 @@
 
 .icon-flag:before {
     content: "\e912"
+}
+
+.icon-param:before {
+    content: "\e994"
 }

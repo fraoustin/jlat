@@ -7,6 +7,7 @@ import datetime
 import hashlib
 
 from db import db
+from db.models import User
 
 getBool ={'on': True, 'off': False}
 
@@ -19,59 +20,6 @@ class checkAdmin(object):
             flash('You are not admin', 'error')
             return redirect("/")
         return wrapped_f
-
-class User(db.Model):
-    __tablename__ = 'user'
-
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    email = db.Column(db.String, index=True, unique=True)
-    name = db.Column(db.String, nullable=False)
-    password = db.Column(db.String, nullable=False)
-    lastconnection = db.Column(db.Date, nullable=True)
-    isadmin = db.Column(db.Boolean, default=False, nullable=False)
-    gravatar = db.Column(db.Boolean, default=False, nullable=False)
-    apikey = db.Column(db.String, nullable=True)
-    token = db.Column(db.String, nullable=True)
-
-    def __setattr__(self, name, value):
-        if name in ('isadmin','gravatar') and type(value) == str:
-            if value in ['true','True']:
-                value = True
-            else:
-                value = False
-        if name == 'password':
-            value = generate_password_hash(value)
-        db.Model.__setattr__(self, name, value)
-
-    def __getattribute__(self, name):
-        if name in ('lastconnection'):
-            if db.Model.__getattribute__(self, name) != None:
-                return db.Model.__getattribute__(self, name).strftime('%d/%m/%Y')
-            else:
-                return ""
-        if name == 'urlgravatar':
-            return "https://www.gravatar.com/avatar/" + hashlib.md5(self.email.encode().lower()).hexdigest()
-        if name not in ('id') and db.Model.__getattribute__(self, name) == None:
-            return ""
-        return db.Model.__getattribute__(self, name)
-
-    def is_active(self):
-        """True, as all users are active."""
-        return True
-
-    def get_id(self):
-        """Return the id to satisfy Flask-Login's requirements."""
-        return self.id
-
-    def is_anonymous(self):
-        """False, as anonymous users aren't supported."""
-        return False
-    
-    def is_authenticated(self):
-        return True
-    
-    def check_password(self, password):
-        return check_password_hash(self.password, password)
 
 @login_required
 def currentuser():

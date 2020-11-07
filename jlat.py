@@ -16,16 +16,12 @@ JLAT_HOST = os.environ.get('JLAT_HOST', '0.0.0.0')
 JLAT_DIR = os.environ.get('JLAT_DIR', os.path.dirname(os.path.abspath(__file__)))
 
 app = Flask(__name__)
-<<<<<<< HEAD
-app.config["VERSION"] = "2.0.2"
-=======
-app.config["VERSION"] = "2.0.3"
+app.config["VERSION"] = "2.0.4"
 
 app.config["APP_PORT"] = JLAT_PORT
 app.config["APP_HOST"] = JLAT_HOST
 app.config["APP_DEBUG"] = JLAT_DEBUG
 app.config["APP_DIR"] = JLAT_DIR
->>>>>>> develop
 
 # db SQLAlchemy
 database_file = "sqlite:///{}".format(os.path.join(JLAT_DIR, "jlat.db"))

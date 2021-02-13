@@ -1,3 +1,23 @@
+String.prototype.withoutAccentLower = function(){
+    var accent = [
+        /[\300-\306]/g, /[\340-\346]/g, // A, a
+        /[\310-\313]/g, /[\350-\353]/g, // E, e
+        /[\314-\317]/g, /[\354-\357]/g, // I, i
+        /[\322-\330]/g, /[\362-\370]/g, // O, o
+        /[\331-\334]/g, /[\371-\374]/g, // U, u
+        /[\321]/g, /[\361]/g, // N, n
+        /[\307]/g, /[\347]/g, // C, c
+    ];
+    var noaccent = ['A','a','E','e','I','i','O','o','U','u','N','n','C','c'];
+     
+    var str = this;
+    for(var i = 0; i < accent.length; i++){
+        str = str.replace(accent[i], noaccent[i]);
+    }
+    str = str.toLowerCase()
+    return str;
+}
+
 function download_csv(csv, filename) {
     var csvFile;
     var downloadLink;
@@ -37,7 +57,7 @@ function export_table_to_csv(id, filename) {
 }
 
 function searchAdvanced(idinput, idtable) {
-    var searchvalue = document.getElementById(idinput).value;
+    var searchvalue = document.getElementById(idinput).value.withoutAccentLower();
     var rows = document.getElementById(idtable).querySelectorAll(".siimple-table-body .siimple-table-row");
     if (searchvalue.indexOf(':') !== -1) {
         key = searchvalue.split(':')[0]
@@ -50,7 +70,8 @@ function searchAdvanced(idinput, idtable) {
             }
         }
         for (var i = 0; i < rows.length; i++) {
-            if (rows[i].querySelectorAll(".siimple-table-cell")[pos].textContent.includes(value)) {
+            testText = rows[i].querySelectorAll(".siimple-table-cell")[pos].textContent.withoutAccentLower();
+            if (testText.includes(value)) {
                 rows[i].classList.remove("hidden")
             } else {
                 rows[i].classList.add("hidden")
@@ -61,7 +82,8 @@ function searchAdvanced(idinput, idtable) {
             var cols = rows[i].querySelectorAll(".siimple-table-cell");
             var found = false;
             for (var j = 0; j < cols.length; j++) {
-                if (cols[j].textContent.includes(searchvalue)) {
+                testText = cols[j].textContent.withoutAccentLower();
+                if (testText.includes(searchvalue)) {
                     found = true
                 }
             };

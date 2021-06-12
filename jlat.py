@@ -16,7 +16,7 @@ JLAT_HOST = os.environ.get('JLAT_HOST', '0.0.0.0')
 JLAT_DIR = os.environ.get('JLAT_DIR', os.path.dirname(os.path.abspath(__file__)))
 
 app = Flask(__name__)
-app.config["VERSION"] = "2.0.6"
+app.config["VERSION"] = "2.0.7"
 
 app.config["APP_PORT"] = JLAT_PORT
 app.config["APP_HOST"] = JLAT_HOST

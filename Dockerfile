@@ -16,6 +16,8 @@ RUN minify -o jlat.js jlat.js
 
 FROM python:3.8-alpine
 
+RUN apk add build-base
+
 RUN mkdir /data
 VOLUME /data
 

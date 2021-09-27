@@ -8,6 +8,8 @@ from db.models import User
 from note import NOTATION
 
 
+__version__ = '0.1.0'
+
 
 @login_required
 def view():
@@ -19,8 +21,8 @@ class Synth(Blueprint):
         Blueprint.__init__(self, name, import_name, template_folder='templates', *args, **kwargs)
         self.add_url_rule('/synth', 'synth', view, methods=['GET'])
 
-    def register(self, synth, options, first_registration=False):
+    def register(self, synth, options):
         try:
-            Blueprint.register(self, synth, options, first_registration)
+            Blueprint.register(self, synth, options)
         except:
             book.logger.error("init synth on register is failed")

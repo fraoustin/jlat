@@ -12,6 +12,9 @@ from db.models import NOTATION
 from auth import User
 
 
+__version__ = '0.1.0'
+
+
 getBool ={'on': True, 'off': False}
 
 @login_required
@@ -113,8 +116,8 @@ class Notes(Blueprint):
         self.add_url_rule('/wizardnote', 'wizard_new_note', wizardnotecreate, methods=['POST'])
         self.add_url_rule('/note/description/<int:idbook>/<int:iduser>', 'description_note', getdescription, methods=['GET'])
 
-    def register(self, note, options, first_registration=False):
+    def register(self, note, options):
         try:
-            Blueprint.register(self, note, options, first_registration)
+            Blueprint.register(self, note, options)
         except:
             note.logger.error("init note on register is failed")

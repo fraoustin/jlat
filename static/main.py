@@ -6,6 +6,9 @@ from functools import wraps
 from flask import Blueprint, send_from_directory, redirect, request
 
 
+__version__ = '0.1.0'
+
+
 def static_web_index(path='.'):
     """
     return index.html
@@ -55,3 +58,9 @@ class Static(Blueprint):
         path = abspath(path)
         self.add_url_rule('/<path:filename>', 'static_web', add_path(path)(static_web))
         self.add_url_rule('/', 'static_web_index', add_path(path)(static_web_index))
+
+    def register(self, book, options):
+        try:
+            Blueprint.register(self, book, options)
+        except:
+            book.logger.error("init static on register is failed")

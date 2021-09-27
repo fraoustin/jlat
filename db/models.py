@@ -1,6 +1,7 @@
 from flask_login import current_user
 import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
+import hashlib
 from db import db
 
 NOTATION = {'A':9,

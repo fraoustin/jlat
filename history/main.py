@@ -15,6 +15,9 @@ from db.models import User
 from note import NOTATION
 
 
+__version__ = '0.1.0'
+
+
 @login_required
 def history(path=''):
     return render_template('history.html', historys=os.listdir(path))
@@ -73,8 +76,8 @@ class History(Blueprint):
         
         self.add_url_rule('/archives/<path:filename>', 'static_web', add_path(self.archives_path)(static_web))
 
-    def register(self, app, options, first_registration=False):
+    def register(self, app, options):
         try:
-            Blueprint.register(self, app, options, first_registration)
+            Blueprint.register(self, app, options)
         except:
             app.logger.error("init history on register is failed")

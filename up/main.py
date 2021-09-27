@@ -15,6 +15,9 @@ from db.models import Note
 from note import NOTATION
 
 
+__version__ = '0.1.0'
+
+
 ALLOWED_EXTENSIONS = ['csv',]
 HEADERS = {
     'User': ['id','name','email','isadmin','gravatar'],
@@ -122,8 +125,8 @@ class Ups(Blueprint):
         if not os.path.isdir(current_app.config['UPLOAD_FOLDER']):
             os.makedirs(current_app.config['UPLOAD_FOLDER'], exist_ok=True)
 
-    def register(self, book, options, first_registration=False):
+    def register(self, book, options):
         try:
-            Blueprint.register(self, book, options, first_registration)
+            Blueprint.register(self, book, options)
         except:
             book.logger.error("init book on register is failed")

@@ -9,7 +9,10 @@
 	  	{{ config['APP_DESC'] }} utilise
 	  	<ul>
 			<li><a href="https://siimple.xyz/">siimple</a></li>
-			<li><a href="https://flask.palletsprojects.com/">flask</a></li>
+			<li><a href="https://flask.palletsprojects.com/">flask</a> ({{ flaskversion }})</li>
+			{% for blueprint in blueprints %}
+			<li><a href="">{{ blueprint.name }}</a> ({{ blueprint.version }})</li>
+			{% endfor %}
 		</ul>
     </div>
 {% endblock %}

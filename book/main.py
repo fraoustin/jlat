@@ -11,6 +11,9 @@ import os
 from db import db
 from db.models import Book
 
+
+__version__ = '0.1.0'
+
 getBool ={'on': True, 'off': False}
 
 @login_required
@@ -186,9 +189,9 @@ class Books(Blueprint):
         self.add_url_rule('/books', 'books', list, methods=['GET'])
         self.add_url_rule('/uploads/<path:filename>', 'static_web', static_web_uploads)
 
-    def register(self, book, options, first_registration=False):
+    def register(self, book, options):
         try:
-            Blueprint.register(self, book, options, first_registration)
+            Blueprint.register(self, book, options)
         except:
             book.logger.error("init book on register is failed")
 

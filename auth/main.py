@@ -9,6 +9,9 @@ import hashlib
 from db import db
 from db.models import User
 
+
+__version__ = '0.1.0'
+
 getBool ={'on': True, 'off': False}
 
 class checkAdmin(object):
@@ -205,8 +208,8 @@ class Auth(Blueprint):
         else:
             current_app.logger.debug("we have least one user")
        
-    def register(self, app, options, first_registration=False):
+    def register(self, app, options):
         try:
-            Blueprint.register(self, app, options, first_registration)
+            Blueprint.register(self, app, options)
         except:
             app.logger.error("init auth on register is failed")

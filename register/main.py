@@ -15,6 +15,9 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
+
+__version__ = '0.1.0'
+
 PARAMS = ['opened', 'year', 'head', 'foot', 'smtpurl', 'smtpemail', 'smtpemailcc', 'smtppassword', 'smtpmsg', 'smtpport', 'smtpsubject']
 
 ALLOWED_EXTENSIONS = ['doc', 'docx', 'odt']
@@ -164,8 +167,8 @@ class Register(Blueprint):
                 db.session.commit()
                 current_app.logger.info("create param register %s" % param)
 
-    def register(self, app, options, first_registration=False):
+    def register(self, app, options):
         try:
-            Blueprint.register(self, app, options, first_registration)
+            Blueprint.register(self, app, options)
         except:
             app.logger.error("init register on register is failed")

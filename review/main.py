@@ -8,6 +8,8 @@ from db.models import Note
 from note import NOTATION
 
 
+__version__ = '0.1.0'
+
 
 @login_required
 def view():
@@ -37,8 +39,8 @@ class Reviews(Blueprint):
         self.add_url_rule('/note/valid/<int:id>', 'valid_note', valid, methods=['GET'])
         self.add_url_rule('/note/onrace/<int:id>', 'onrace_book', onrace, methods=['GET'])
 
-    def register(self, review, options, first_registration=False):
+    def register(self, review, options):
         try:
-            Blueprint.register(self, review, options, first_registration)
+            Blueprint.register(self, review, options)
         except:
             book.logger.error("init review on register is failed")

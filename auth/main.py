@@ -75,7 +75,7 @@ def create_user():
 
 @login_required
 def update_user(id):
-    backurl = request.form.get('backurl','/')
+    backurl = request.form.get('backurl','')
     user = User.query.filter_by(id=id).first()
     if user is not None:
         user.email = request.form['email']
@@ -119,7 +119,7 @@ def delete_user(id):
 @login_required
 @checkAdmin()
 def users():
-    return render_template("users.html", users=User.all(sortby=User.name), backurl=None)
+    return render_template("users.html", users=User.all(sortby=User.name), backurl=None, current_user=current_user)
 
 
 def login():

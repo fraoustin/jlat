@@ -7,12 +7,24 @@ import datetime
 import hashlib
 
 from db import db
-from db.models import User
+from db.models import User, GroupOfAuthorization
 
 
-__version__ = '0.1.0'
+__version__ = '0.1.2'
 
 getBool ={'on': True, 'off': False}
+
+
+class checkAuthorization(object):
+
+    def __call__(self, fn, modul, key):
+        def wrapped_f(*args, **kwargs):
+            if current_user.has_authorization(modul, key):
+                return fn(*args, **kwargs)
+            flash('You are not authorized', 'error')
+            return redirect("/")
+        return wrapped_f
+
 
 class checkAdmin(object):
 
@@ -143,6 +155,83 @@ def logout():
     return redirect(url_for('home'))
 
 
+
+def authorization_of_app():
+    authorizations = {}
+    for blueprint in current_app.blueprints:
+        if 'authorization' in current_app.blueprints[blueprint].__dict__:
+            authorizations[current_app.blueprints[blueprint].__class__.__name__] = current_app.blueprints[blueprint].authorization
+    return authorizations
+
+
+@login_required
+@checkAdmin()
+def view_authorization(id):
+    try:
+        group = GroupOfAuthorization.get(id=id)
+        if group is not None:
+            authorizations = ['%s_%s' % (elt.modul, elt.key) for elt in group.authorizations]
+            return render_template('authorization.html', group=group, authorizations=authorizations, authorizationsofapp=authorization_of_app())
+        else:
+            raise('Authorizations not found')
+    except Exception:
+        flash('Not found Authorizations', 'warning')
+        return redirect(url_for('auth.authorizations'))
+
+
+@login_required
+@checkAdmin()
+def new_authorization():
+    return render_template('authorization.html', group=GroupOfAuthorization(), authorizations=[], authorizationsofapp=authorization_of_app())
+
+
+@login_required
+@checkAdmin()
+def create_authorization():
+    group = GroupOfAuthorization()
+    group.name = request.form['name']
+    group.save()
+    flash('Authorization is created', 'success')
+    return redirect(url_for('auth.view_authorization', id=group.id))
+
+
+@login_required
+@checkAdmin()
+def update_authorization(id):
+    group = GroupOfAuthorization.get(id=id)
+    if group is not None:
+        group.name = request.form['name']
+        group.clean_authorization()
+        for auth in [str(elt) for elt in request.form if elt != 'name']:
+            modul = auth.split('_')[0]
+            key = '_'.join(auth.split('_')[1:])
+            group.add_authorisation(modul, key)
+        group.save()
+        flash('Authorization is saved', 'success')
+        return redirect(url_for('auth.view_authorization', id=group.id))
+    else:
+        flash('Authorization doesn\'t exist', 'error')
+        return redirect(url_for('auth.authorizations'))
+
+
+@login_required
+@checkAdmin()
+def delete_authorization(id):
+    group = GroupOfAuthorization.get(id=id)
+    if group is not None:
+        group.clean_authorization()
+        group.remove()
+        flash('Authorization is deleted', 'error')
+    return redirect(url_for('auth.authorizations'))
+
+
+@login_required
+@checkAdmin()
+def authorizations():
+    return render_template("authorizations.html", authorizations=GroupOfAuthorization.all(sortby=GroupOfAuthorization.name))
+
+
+
 class Auth(Blueprint):
 
     def __init__(self, name='auth', import_name=__name__, *args, **kwargs):
@@ -157,6 +246,12 @@ class Auth(Blueprint):
         self.add_url_rule('/user/<int:id>', 'update_user', update_user, methods=['POST'])
         self.add_url_rule('/deluser/<int:id>', 'delete_user', delete_user, methods=['POST'])
         self.add_url_rule('/users', 'users', users, methods=['GET'])
+        self.add_url_rule('/authorization/<int:id>', 'view_authorization', view_authorization, methods=['GET'])
+        self.add_url_rule('/authorization', 'new_authorization', new_authorization, methods=['GET'])
+        self.add_url_rule('/authorization', 'create_authorization', create_authorization, methods=['POST'])
+        self.add_url_rule('/authorization/<int:id>', 'update_note', update_authorization, methods=['POST'])
+        self.add_url_rule('/delauthorization/<int:id>', 'delete_note', delete_authorization, methods=['POST'])
+        self.add_url_rule('/authorizations', 'authorizations', authorizations, methods=['GET'])
         
 
     def _init(self):

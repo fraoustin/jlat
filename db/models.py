@@ -41,6 +41,7 @@ class User(db.Model):
     gravatar = db.Column(db.Boolean, default=False, nullable=False)
     apikey = db.Column(db.String, nullable=True)
     token = db.Column(db.String, nullable=True)
+    group = db.Column(db.String, nullable=True)
 
     def __setattr__(self, name, value):
         if name in ('isadmin','gravatar') and type(value) == str:
@@ -81,6 +82,54 @@ class User(db.Model):
     
     def check_password(self, password):
         return check_password_hash(self.password, password)
+
+    def has_authorization(self, modul, key):
+        if self.isadmin is True:
+            return True
+        authorizations = Authorization.get(self.group)
+        for authorization in authorizations:
+            if authorization.modul == modul and authorization.key == key:
+                return True
+        return False
+
+
+class GroupOfAuthorization(db.Model):
+    __tablename__ = 'groupofauthorization'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String, nullable=False)
+
+    def clean_authorization(self):
+        for auth in Authorization.query.filter_by(idgroup=self.id).all():
+            auth.remove()
+
+    def add_authorisation(self, modul, key):
+        auth = Authorization()
+        auth.idgroup = self.id
+        auth.modul = modul
+        auth.key = key
+        auth.save()
+
+    @property
+    def authorizations(self):
+        return Authorization.query.filter_by(idgroup=self.id).all()
+
+
+class Authorization(db.Model):
+    __tablename__ = 'authorization'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    idgroup = db.Column(db.Integer, nullable=False)
+    modul = db.Column(db.String, nullable=False)
+    key = db.Column(db.String, nullable=False)
+
+    @classmethod
+    def get(cls, idgroup):
+        try:
+            return cls.query.filter_by(idgroup=idgroup).all()
+        except Exception:
+            return None
+
 
 class Book(db.Model):
     __tablename__ = 'book'

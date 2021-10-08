@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block navbar %}
+<a href="/"><div class="siimple-btn icon-close"></div></a>
+<a href="/authorization"><div class="siimple-btn icon-add"></div></a>
+<div class="siimple-btn icon-download" onclick="export_table_to_csv('table', 'authorization.csv');"></div>
+{% endblock %}
+
+{% block body %}
+<div class="siimple-h2">Authorization</div>
+<div class="search icon-search"><input id="search" type="text" class="siimple-input"></div>
+<div id = "table" class="siimple-table">
+    <div class="siimple-table-header">
+        <div class="siimple-table-row">
+            <div class="siimple-table-cell">Name</div>
+
+        </div>
+    </div>
+    <div class="siimple-table-body">
+        {% for authorization in authorizations %}
+        <div class="siimple-table-row" onclick="window.location='/authorization/{{ authorization.id }}'">
+            <div class="siimple-table-cell">{{ authorization.name }}</div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

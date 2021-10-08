@@ -20,6 +20,7 @@
             <div class="siimple-table-cell hidden">Gravatar</div>
             <div class="siimple-table-cell hidden">Apikey</div>
             <div class="siimple-table-cell hidden">Token</div>
+            <div class="siimple-table-cell hidden">Authorization</div>
 
         </div>
     </div>
@@ -34,6 +35,7 @@
             <div class="siimple-table-cell hidden">{{ user.gravatar }}</div>
             <div class="siimple-table-cell hidden">{{ user.apikey }}</div>
             <div class="siimple-table-cell hidden">{{ user.token }}</div>
+            <div class="siimple-table-cell hidden">{{ user.group }}</div>
         </div>
         {% endfor %}
     </div>
@@ -62,6 +64,15 @@
                         <tr>
                             <td><label class="siimple-label">Is Admin: </label></td>
                             <td><div class="siimple-switch"><input type="checkbox" id="isadmin" name="isadmin" {% if not current_user.isadmin %}disabled{% endif %}><label for="isadmin"></label></div></td>
+                        </tr>
+                        <tr>
+                            <td><label class="siimple-label">Authorization:</label></td>
+                            <td><select class="siimple-select siimple-select--fluid" id="group" name="group"> 
+                                <option value=""></option>                   
+                                {% for authorization in authorizations %}
+                                    <option value="{{ authorization.id }}">{{ authorization.name }}</option>
+                                {% endfor %}
+                            </select></td>
                         </tr>
                         <tr>
                             <td><label class="siimple-label">Gravatar: </label></td>
@@ -119,6 +130,7 @@
         } else {
             document.getElementById('gravatar').checked = false;
         };
+        document.getElementById('group').value = document.getElementById(id).getElementsByTagName('div')[8].textContent;
     };
     function adduser(){
         document.getElementById("modal-user").style.display = "";
@@ -132,6 +144,7 @@
         document.getElementById('token').value = "";
         document.getElementById('isadmin').checked = false;
         document.getElementById('gravatar').checked = false;
+        document.getElementById('group').value = "";
     }
 </script>
 {% endblock %}

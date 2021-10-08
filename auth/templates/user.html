@@ -33,17 +33,21 @@
                 <td><label class="siimple-label">Is Admin: </label></td>
                 <td><div class="siimple-switch"><input type="checkbox" id="isadmin" name="isadmin" {% if user.isadmin %}checked{% endif %} {% if not current_user.isadmin %}disabled{% endif %}><label for="isadmin"></label></div></td>
             </tr>
+            <tr class="hidden">
+                <td><label class="siimple-label">Authorization: {{ user.group }}</label></td>                
+                <td><input name="group" id="group" class="siimple-input siimple-input--fluid" value="{{ user.group }}" readonly></td>
+            </tr>
             <tr>
                 <td><label class="siimple-label">Gravatar: </label></td>
                 <td><div class="siimple-switch"><input type="checkbox" id="gravatar" name="gravatar" {% if user.gravatar %}checked{% endif %}><label for="gravatar"></label></div></td>
             </tr>
             <tr>
                 <td><label class="siimple-label">Apikey: </label></td>
-                <td><input name="apikey" id="apikey" class="siimple-input siimple-input--fluid" value="{{ user.apikey }}"></td>
+                <td><input name="apikey" id="apikey" class="siimple-input siimple-input--fluid" value="{{ user.apikey }}" readonly></td>
             </tr>
             <tr>
                 <td><label class="siimple-label">Token: </label></td>
-                <td><input name="token" id="token" class="siimple-input siimple-input--fluid" value="{{ user.token }}"></td>
+                <td><input name="token" id="token" class="siimple-input siimple-input--fluid" value="{{ user.token }}" readonly></td>
             </tr>
         </table>
     </form>

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block navbar %}
+<a href="/authorizations"><div class="siimple-btn icon-close"></div></a>
+{% if current_user.isadmin %}
+<div class="siimple-btn icon-save" onclick="window.document.formupdate.submit()"></div>
+    {% if group.name != None %}
+    <div class="siimple-btn icon-del" onclick="window.document.formdel.submit()"></div>
+    {% endif %}
+{% endif %}
+{% endblock %}
+
+{% block body %}
+    {% if group.name != None %}
+    <div class="siimple-h2">Authorization : {{ group.name }}</div>
+    <form action="/authorization/{{ group.id }}"  method="POST" name="formupdate">
+    {% else %}
+    <form action="/authorization"  method="POST" name="formupdate">
+    {% endif %}
+        <table>
+            <tr>
+                <td><label class="siimple-label">Name: </label></td>
+                {% if group.name != None %}
+                <td><input name="name" id="name" class="siimple-input siimple-input--fluid" value="{{ group.name }}" required></td>
+                {% else %}
+                <td><input name="name" id="name" class="siimple-input siimple-input--fluid" value="" required></td>
+                {% endif %}
+            </tr>
+            {% for authorizationofapp in authorizationsofapp %}
+            <tr>
+                <td><label class="siimple-label">{{ authorizationofapp }}</label></td>
+                <td></td>
+            </tr>
+                {% for authorization in authorizationsofapp[authorizationofapp] %}
+                <tr>
+                    <td><label class="siimple-label siimple--float-right">{{ authorization }}</label></td>
+                    <td><div class="siimple-switch"><input type="checkbox" id="{{ authorizationofapp }}_{{ authorization }}" name="{{ authorizationofapp }}_{{ authorization }}" {% if authorizationofapp+'_'+authorization in authorizations%}checked{% endif %}><label for="{{ authorizationofapp }}_{{ authorization }}"></label></div></td>        
+                </tr>
+                {% endfor %}
+            {% endfor %}
+        </table>
+    </form>
+    <form action="/delauthorization/{{ group.id }}"  method="POST" name="formdel">
+    </form>
+{% endblock %}

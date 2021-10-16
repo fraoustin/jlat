@@ -17,14 +17,17 @@ getBool ={'on': True, 'off': False}
 
 class checkAuthorization(object):
 
-    def __call__(self, fn, modul, key):
+    def __init__(self, modul, key):
+        self.modul = modul
+        self.key = key
+
+    def __call__(self, fn):
         def wrapped_f(*args, **kwargs):
-            if current_user.has_authorization(modul, key):
+            if current_user.has_authorization(self.modul, self.key):
                 return fn(*args, **kwargs)
             flash('You are not authorized', 'error')
             return redirect("/")
         return wrapped_f
-
 
 class checkAdmin(object):
 
@@ -80,6 +83,7 @@ def create_user():
     user.name = request.form['name']
     user.isadmin = getBool.get(request.form.get('isadmin','off'),False)
     user.gravatar = getBool.get(request.form.get('gravatar','off'),False)
+    user.group = request.form['group']
     user.save()
     flash('User %s is created' % user.name,'success')
     return redirect(backurl)
@@ -105,6 +109,7 @@ def update_user(id):
         if current_user.isadmin and current_user.id != user.id:
             user.isadmin = getBool.get(request.form.get('isadmin','off'),False)
         user.gravatar = getBool.get(request.form.get('gravatar','off'),False)
+        user.group = request.form['group']
         user.save()
         flash('User is saved','success')
         return redirect(backurl)
@@ -131,7 +136,7 @@ def delete_user(id):
 @login_required
 @checkAdmin()
 def users():
-    return render_template("users.html", users=User.all(sortby=User.name), backurl=None, current_user=current_user)
+    return render_template("users.html", users=User.all(sortby=User.name), backurl=None, current_user=current_user, authorizations=GroupOfAuthorization.all(sortby=GroupOfAuthorization.name))
 
 
 def login():
@@ -191,6 +196,10 @@ def create_authorization():
     group = GroupOfAuthorization()
     group.name = request.form['name']
     group.save()
+    for auth in [str(elt) for elt in request.form if elt != 'name']:
+        modul = auth.split('_')[0]
+        key = '_'.join(auth.split('_')[1:])
+        group.add_authorisation(modul, key)
     flash('Authorization is created', 'success')
     return redirect(url_for('auth.view_authorization', id=group.id))
 

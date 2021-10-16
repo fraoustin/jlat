@@ -9,7 +9,7 @@ from db.models import Book
 from db.models import Note
 from db.models import NOTATION
 
-from auth import User
+from auth import User, checkAuthorization
 
 
 __version__ = '0.1.0'
@@ -78,10 +78,12 @@ def listing():
     return render_template("notes.html", notes=sorted(Note.all(), key=lambda note: note.book.idext))
 
 @login_required
+@checkAuthorization('Notes','note rapide')
 def wizardnoteview():
     return render_template("wizardnote.html", users=User.all(sortby=User.name), books=Book.all(sortby=Book.idext), notation=NOTATION)
 
 @login_required
+@checkAuthorization('Notes','note rapide')
 def wizardnotecreate():
     idbook = request.form['idbook']
     iduser = request.form['iduser']
@@ -115,6 +117,7 @@ class Notes(Blueprint):
         self.add_url_rule('/wizardnote', 'wizard_note', wizardnoteview, methods=['GET'])
         self.add_url_rule('/wizardnote', 'wizard_new_note', wizardnotecreate, methods=['POST'])
         self.add_url_rule('/note/description/<int:idbook>/<int:iduser>', 'description_note', getdescription, methods=['GET'])
+        self.authorization = ['note rapide', 'voir', 'ajouter modifier', 'supprimer']
 
     def register(self, note, options):
         try:

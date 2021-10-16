@@ -13,7 +13,7 @@
     <div class="shortcut siimple-card siimple--display-inline-block" style="max-width:33%;">
         <div class="siimple-card-header">Authorization</div>
         <div class="siimple-card-body" align="left">
-            <a href="/authorizations" class="no-decorate siimple--color-primary"><div class="icon icon-param"></div></a>
+            <a href="/authorizations" class="no-decorate siimple--color-warning"><div class="icon icon-param"></div></a>
         </div>
     </div>
 
@@ -61,12 +61,14 @@
         </div>
     </div>
 
+    {% if current_user.has_authorization('Notes','note rapide') %}
     <div class="shortcut siimple-card siimple--display-inline-block" style="max-width:33%;">
         <div class="siimple-card-header">Notes Rapides</div>
         <div class="siimple-card-body" align="left">
             <a href="/wizardnote" class="no-decorate siimple--color-primary"><div class="icon icon-magical"></div></a>
         </div>
     </div>
+    {% endif %}
 
     <div class="shortcut siimple-card siimple--display-inline-block" style="max-width:33%;">
         <div class="siimple-card-header">Synthèse</div>

@@ -18,6 +18,7 @@ __version__ = '0.1.0'
 getBool ={'on': True, 'off': False}
 
 @login_required
+@checkAuthorization('Notes','voir')
 def view(id):
     try:
         note = Note.get(id=id)
@@ -30,11 +31,13 @@ def view(id):
         return redirect(url_for('notes'))
         
 @login_required
+@checkAuthorization('Notes','ajouter modifier')
 def new():
     return render_template('note.html', note=Note(), users=User.all(sortby=User.name), books=Book.all(sortby=Book.title), notation=NOTATION)
 
 
 @login_required
+@checkAuthorization('Notes','ajouter modifier')
 def create():
     idbook = request.form['idbook']
     iduser = request.form['iduser']
@@ -50,6 +53,7 @@ def create():
 
 
 @login_required
+@checkAuthorization('Notes','ajouter modifier')
 def update(id):
     note = Note.get(id=id)
     if note is not None:
@@ -66,6 +70,7 @@ def update(id):
         return redirect(url_for('note.notes'))
 
 @login_required
+@checkAuthorization('Notes','supprimer')
 def delete(id):
     note = Note.get(id=id)
     if note is not None:
@@ -74,6 +79,7 @@ def delete(id):
     return redirect(url_for('note.notes'))
 
 @login_required
+@checkAuthorization('Notes','voir')
 def listing():
     return render_template("notes.html", notes=sorted(Note.all(), key=lambda note: note.book.idext))
 
@@ -119,8 +125,8 @@ class Notes(Blueprint):
         self.add_url_rule('/note/description/<int:idbook>/<int:iduser>', 'description_note', getdescription, methods=['GET'])
         self.authorization = ['note rapide', 'voir', 'ajouter modifier', 'supprimer']
 
-    def register(self, note, options):
+    def register(self, app, options):
         try:
-            Blueprint.register(self, note, options)
+            Blueprint.register(self, app, options)
         except:
-            note.logger.error("init note on register is failed")
+            app.logger.error("init note on register is failed")

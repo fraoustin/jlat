@@ -32,13 +32,6 @@
     </div>
 
     <div class="shortcut siimple-card siimple--display-inline-block" style="max-width:33%;">
-        <div class="siimple-card-header">Notes</div>
-        <div class="siimple-card-body" align="left">
-            <a href="/notes" class="no-decorate siimple--color-primary"><div class="icon icon-edit"></div></a>
-        </div>
-    </div>
-
-    <div class="shortcut siimple-card siimple--display-inline-block" style="max-width:33%;">
         <div class="siimple-card-header">Settings</div>
         <div class="siimple-card-body" align="left">
             <a href="/settings" class="no-decorate siimple--color-warning"><div class="icon icon-param"></div></a>
@@ -47,19 +40,32 @@
 
     {% endif %}
 
+    {% if current_user.has_authorization('Notes','voir') %}
+    <div class="shortcut siimple-card siimple--display-inline-block" style="max-width:33%;">
+        <div class="siimple-card-header">Notes</div>
+        <div class="siimple-card-body" align="left">
+            <a href="/notes" class="no-decorate siimple--color-primary"><div class="icon icon-edit"></div></a>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if current_user.has_authorization('Books','voir') %}
     <div class="shortcut siimple-card siimple--display-inline-block" style="max-width:33%;">
         <div class="siimple-card-header">Livres</div>
         <div class="siimple-card-body" align="left">
             <a href="/books" class="no-decorate siimple--color-primary"><div class="icon icon-book"></div></a>
         </div>
     </div>
+    {% endif %}
 
+    {% if current_user.has_authorization('Reviews','voir') %}
     <div class="shortcut siimple-card siimple--display-inline-block" style="max-width:33%;">
         <div class="siimple-card-header">Relecture</div>
         <div class="siimple-card-body" align="left">
             <a href="/reviews" class="no-decorate siimple--color-primary"><div class="icon icon-medal"></div></a>
         </div>
     </div>
+    {% endif %}
 
     {% if current_user.has_authorization('Notes','note rapide') %}
     <div class="shortcut siimple-card siimple--display-inline-block" style="max-width:33%;">
@@ -70,21 +76,26 @@
     </div>
     {% endif %}
 
+
+    {% if current_user.has_authorization('Synth','voir') %}
     <div class="shortcut siimple-card siimple--display-inline-block" style="max-width:33%;">
         <div class="siimple-card-header">Synthèse</div>
         <div class="siimple-card-body" align="left">
             <a onclick="view_wait();location.href='/synth';" class="no-decorate siimple--color-primary"><div class="icon icon-table"></div></a>
         </div>
     </div>
+    {% endif %}
 
+    {% if current_user.has_authorization('History','voir') %}
     <div class="shortcut siimple-card siimple--display-inline-block" style="max-width:33%;">
         <div class="siimple-card-header">Historique</div>
         <div class="siimple-card-body" align="left">
             <a href='/history' class="no-decorate siimple--color-primary"><div class="icon icon-history"></div></a>
         </div>
     </div>
+    {% endif %}
 
-    {% if current_user.isadmin %}
+    {% if current_user.has_authorization('Info','voir') %}
     <div class="shortcut siimple-card siimple--display-inline-block" style="max-width:33%;">
         <div class="siimple-card-header">Au sujet de</div>
         <div class="siimple-card-body" align="left">

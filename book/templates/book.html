@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
 {% block navbar %}
 <a href="/books"><div class="siimple-btn icon-close"></div></a>
-{% if current_user.isadmin %}
+{% if current_user.has_authorization('Books','ajouter modifier') %}
 <div class="siimple-btn icon-save" onclick="window.document.formupdate.submit()"></div>
-    {% if book.id != None %}
+{% endif %}
+{% if book.id != None %}
+    {% if current_user.has_authorization('Books','supprimer') %}
     <div class="siimple-btn icon-del" onclick="window.document.formdel.submit()"></div>
     {% endif %}
 {% endif %}

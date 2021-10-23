@@ -2,7 +2,7 @@ from flask import Blueprint, flash, request, render_template, redirect, url_for,
 from flask_login import login_required, current_user
 from flask_sqlalchemy import SQLAlchemy
 import datetime
-from auth import checkAdmin
+from auth import checkAdmin, checkAuthorization
 import unidecode
 
 from werkzeug.utils import secure_filename
@@ -17,6 +17,7 @@ __version__ = '0.1.0'
 getBool ={'on': True, 'off': False}
 
 @login_required
+@checkAuthorization('Books','voir')
 def view(id):
     try:
         book = Book.get(id=id)
@@ -29,13 +30,13 @@ def view(id):
         return redirect(url_for('books'))
         
 @login_required
-@checkAdmin()
+@checkAuthorization('Books','ajouter modifier')
 def new():
     return render_template('book.html', book=Book(onrace=True))
 
 
 @login_required
-@checkAdmin()
+@checkAuthorization('Books','ajouter modifier')
 def create():
     title = request.form['title']
     idext = request.form['idext']
@@ -100,7 +101,7 @@ def create():
 
 
 @login_required
-@checkAdmin()
+@checkAuthorization('Books','ajouter modifier')
 def update(id):
     book = Book.get(id=id)
     if book is not None:
@@ -149,7 +150,7 @@ def update(id):
 
 
 @login_required
-@checkAdmin()
+@checkAuthorization('Books','supprimer')
 def delete(id):
     book = Book.get(id=id)
     if book is not None:
@@ -160,6 +161,7 @@ def delete(id):
 
 
 @login_required
+@checkAuthorization('Books','voir')
 def list():
     return render_template("books.html", books=Book.all(sortby=Book.idext))
 
@@ -188,12 +190,13 @@ class Books(Blueprint):
         self.add_url_rule('/delbook/<int:id>', 'delete_book', delete, methods=['POST'])
         self.add_url_rule('/books', 'books', list, methods=['GET'])
         self.add_url_rule('/uploads/<path:filename>', 'static_web', static_web_uploads)
+        self.authorization = ['voir', 'ajouter modifier', 'supprimer']
 
-    def register(self, book, options):
+    def register(self, app, options):
         try:
-            Blueprint.register(self, book, options)
+            Blueprint.register(self, app, options)
         except:
-            book.logger.error("init book on register is failed")
+            app.logger.error("init book on register is failed")
 
     def _init(self):
         current_app.config['BOOK_FOLDER'] = self.dir_books

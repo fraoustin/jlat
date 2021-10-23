@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block navbar %}
 <a href="/"><div class="siimple-btn icon-close"></div></a>
-{% if current_user.isadmin %}
+{% if current_user.has_authorization('History','ajouter') %}
 <a onclick="view_wait();location.href='/addhistory';"><div class="siimple-btn icon-add"></div></a>
 {% endif %}
 {% endblock %}

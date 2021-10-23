@@ -6,7 +6,7 @@ from flask import Blueprint, render_template, current_app, send_from_directory, 
 from flask_login import login_required, current_user
 
 from static.main import add_path
-from auth import checkAdmin
+from auth import checkAdmin, checkAuthorization
 
 from db import db
 from db.models import Book
@@ -19,12 +19,13 @@ __version__ = '0.1.0'
 
 
 @login_required
+@checkAuthorization('History','voir')
 def history(path=''):
     return render_template('history.html', historys=os.listdir(path))
 
 
 @login_required
-@checkAdmin()
+@checkAuthorization('History','ajouter')
 def addhistory(path=''):
     year = Book.all(sortby=Book.id)[0].year
     year_path = os.path.join(path, year)
@@ -75,6 +76,7 @@ class History(Blueprint):
             raise ValueError("no possible to create %s" % self.archives_path)
         
         self.add_url_rule('/archives/<path:filename>', 'static_web', add_path(self.archives_path)(static_web))
+        self.authorization = ['voir','ajouter']
 
     def register(self, app, options):
         try:

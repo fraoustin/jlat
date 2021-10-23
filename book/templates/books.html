@@ -2,7 +2,7 @@
 
 {% block navbar %}
 <a href="/"><div class="siimple-btn icon-close"></div></a>
-{% if current_user.isadmin %}
+{% if current_user.has_authorization('Books','ajouter modifier') %}
 <a href="/book"><div class="siimple-btn icon-add"></div></a>
 {% endif %}
 <div class="siimple-btn icon-download" onclick="export_table_to_csv('table', 'books.csv');"></div>

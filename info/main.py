@@ -1,10 +1,12 @@
 from flask import Blueprint, render_template, current_app, __version__ as flaskversion
 import importlib
+from auth import checkAdmin, checkAuthorization
 
 
 __version__ = '0.1.0'
 
 
+@checkAuthorization('Info','voir')
 def info():
     blueprints = {}
     for b in current_app.blueprints:
@@ -17,6 +19,7 @@ class Info(Blueprint):
     def __init__(self, name='info', import_name=__name__, *args, **kwargs):
         Blueprint.__init__(self, name, import_name, template_folder='templates', *args, **kwargs)
         self.add_url_rule('/info', 'info', info, methods=['GET'])
+        self.authorization = ['voir',]
 
     def register(self, app, options):
         try:

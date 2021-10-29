@@ -125,8 +125,8 @@ class Ups(Blueprint):
         if not os.path.isdir(current_app.config['UPLOAD_FOLDER']):
             os.makedirs(current_app.config['UPLOAD_FOLDER'], exist_ok=True)
 
-    def register(self, book, options):
+    def register(self, app, options):
         try:
-            Blueprint.register(self, book, options)
+            Blueprint.register(self, app, options)
         except:
-            book.logger.error("init book on register is failed")
+            app.logger.error("init ups on register is failed")

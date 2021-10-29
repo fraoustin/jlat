@@ -59,8 +59,8 @@ class Static(Blueprint):
         self.add_url_rule('/<path:filename>', 'static_web', add_path(path)(static_web))
         self.add_url_rule('/', 'static_web_index', add_path(path)(static_web_index))
 
-    def register(self, book, options):
+    def register(self, app, options):
         try:
-            Blueprint.register(self, book, options)
+            Blueprint.register(self, app, options)
         except:
-            book.logger.error("init static on register is failed")
+            app.logger.error("init static on register is failed")

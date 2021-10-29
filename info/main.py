@@ -1,11 +1,12 @@
 from flask import Blueprint, render_template, current_app, __version__ as flaskversion
 import importlib
+from flask_login import login_required, current_user
 from auth import checkAdmin, checkAuthorization
 
 
 __version__ = '0.1.0'
 
-
+@login_required
 @checkAuthorization('Info','voir')
 def info():
     blueprints = {}

@@ -5,9 +5,9 @@
 <div class="siimple-btn icon-save" onclick="window.document.formupdate.submit()"></div>
 {% else %}
     {% if current_user.isadmin %}
-        <div class="siimple-btn icon-save" onclick="window.document.formupdate.submit()"></div>
         <div class="siimple-btn icon-del" onclick="window.document.formdel.submit()"></div>
-    {% elif current_user.id == note.idauth or current_user.name == note.lastmodifiedby %}
+    {% endif %}
+    {% if current_user.id == note.idauth or current_user.name == note.lastmodifiedby or current_user.isadmin%}
         <div class="siimple-btn icon-save" onclick="window.document.formupdate.submit()"></div>
     {% endif %}
 {% endif %}

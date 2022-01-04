@@ -45,6 +45,8 @@ def addhistory(path=''):
     current_app.logger.info('write synth for %s' % year)
     with open(os.path.join(year_path, "synth.html"), "w") as synth:
         synth.write(render_template('archive_synth.html', year=year, books=Book.all(sortby=Book.idext), users=User.all(sortby=User.name)))
+    for book in Book.all():
+        book.remove()
     return redirect('/history')
 
 

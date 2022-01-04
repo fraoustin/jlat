@@ -130,7 +130,7 @@ def send_mail(book):
     serveur = smtplib.SMTP(ParamRegister.getValue('smtpurl'), int(ParamRegister.getValue('smtpport')))
     serveur.starttls()
     serveur.login(Fromadd, ParamRegister.getValue('smtppassword'))
-    serveur.sendmail(message)
+    serveur.send_message(message)
     serveur.quit()
 
 @login_required

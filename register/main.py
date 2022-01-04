@@ -120,7 +120,7 @@ def send_mail(book):
     if len(book.trad_email) > 0:
         to.append(book.trad_email)
     Toadd = ",".join(to)
-    bcc = ParamRegister.getValue('smtpemail')
+    bcc = ParamRegister.getValue('smtpemailcc')
     message = MIMEMultipart()
     message['From'] = Fromadd
     message['To'] = Toadd

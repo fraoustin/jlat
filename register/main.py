@@ -14,7 +14,7 @@ from db.models import ParamRegister
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-
+from email.message import EmailMessage
 
 __version__ = '0.1.0'
 
@@ -121,16 +121,16 @@ def send_mail(book):
         to.append(book.trad_email)
     Toadd = ",".join(to)
     bcc = ParamRegister.getValue('smtpemailcc')
-    message = MIMEMultipart()
+    message = EmailMessage()
     message['From'] = Fromadd
     message['To'] = Toadd
     message['BCC'] = bcc
     message['Subject'] = ParamRegister.getValue('smtpsubject')
-    message.attach(MIMEText(ParamRegister.getValue('smtpmsg')))
+    msg.set_content(ParamRegister.getValue('smtpmsg'))
     serveur = smtplib.SMTP(ParamRegister.getValue('smtpurl'), int(ParamRegister.getValue('smtpport')))
     serveur.starttls()
     serveur.login(Fromadd, ParamRegister.getValue('smtppassword'))
-    serveur.sendmail(Fromadd, Toadd.split(','), message.as_string())
+    serveur.sendmail(message)
     serveur.quit()
 
 @login_required

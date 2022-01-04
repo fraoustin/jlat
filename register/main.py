@@ -126,7 +126,7 @@ def send_mail(book):
     message['To'] = Toadd
     message['BCC'] = bcc
     message['Subject'] = ParamRegister.getValue('smtpsubject')
-    msg.set_content(ParamRegister.getValue('smtpmsg'))
+    message.set_content(ParamRegister.getValue('smtpmsg'))
     serveur = smtplib.SMTP(ParamRegister.getValue('smtpurl'), int(ParamRegister.getValue('smtpport')))
     serveur.starttls()
     serveur.login(Fromadd, ParamRegister.getValue('smtppassword'))

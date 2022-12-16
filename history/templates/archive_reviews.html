@@ -8,7 +8,8 @@
 {% endblock %}
 
 {% block body %}
-<div class="siimple-h2">Relecture {{ 2020 }}</div>
+<div class="siimple-h2">Relecture {{ year }}</div>
+<div class="search icon-search"><input id="searchCard" type="text" class="siimple-input"></div>
 {% for book in books %}
     <div id="book-card{{ book.id }}" class="siimple-card book-card {% if book.onrace %}onrace{% else %} noonrace {% endif %}">
         <div class="siimple-card-header">
@@ -108,5 +109,20 @@
         document.getElementById('tab-' + tabOtherOne).classList.remove('siimple-tabs-item--selected');
         document.getElementById('tab-' + tabSelect).classList.add('siimple-tabs-item--selected');
     };
+
+    function searchAdvancedCard() {
+        var value = document.getElementById("searchCard").value.withoutAccentLower();
+        var books = document.getElementById("content").querySelectorAll(".book-card");
+        for (var i = 0; i < books.length; i++) {
+            var testText = books[i].querySelectorAll(".siimple-card-header")[0].textContent.withoutAccentLower();
+            if (testText.includes(value)) {
+                books[i].classList.remove("hidden")
+            } else {
+                books[i].classList.add("hidden")
+            }
+        }
+    }
+
+    document.getElementById("searchCard").addEventListener("input", function(){searchAdvancedCard()});
 </script>
 {% endblock %}

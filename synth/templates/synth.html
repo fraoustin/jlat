@@ -10,6 +10,35 @@
 
 {% block body %}
 <div class="siimple-h2">Synthèse</div>
+
+{% set dev = namespace(review0=0, review1=0, review2=0, reviewmore3=0) %}
+
+{% for book in books %}
+    {% if book.notes|length == 0 %} {% set dev.review0 = dev.review0 + 1 %} {% endif %}
+    {% if book.notes|length == 1 %} {% set dev.review1 = dev.review1 + 1 %} {% endif %}
+    {% if book.notes|length == 2 %} {% set dev.review2 = dev.review2 + 1 %} {% endif %}
+    {% if book.notes|length > 2 %} {% set dev.reviewmore3 = dev.reviewmore3 + 1 %} {% endif %}
+{% endfor %}
+
+{% set devonrace = namespace(review0=0, review1=0, review2=0, reviewmore3=0) %}
+
+{% for book in books %}
+    {% if book.onrace %}
+        {% if book.notes|length == 0 %} {% set devonrace.review0 = devonrace.review0 + 1 %} {% endif %}
+        {% if book.notes|length == 1 %} {% set devonrace.review1 = devonrace.review1 + 1 %} {% endif %}
+        {% if book.notes|length == 2 %} {% set devonrace.review2 = devonrace.review2 + 1 %} {% endif %}
+        {% if book.notes|length > 2 %} {% set devonrace.reviewmore3 = devonrace.reviewmore3 + 1 %} {% endif %}
+    {% endif %}
+{% endfor %}
+
+
+
+<div class="chart-container" style="width: 400px; height: 400px; margin: auto;">
+<canvas id="bar-chart" class="line chartjs-render-monitor"></canvas>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
 <div class="search icon-search"><input id="search" type="text" class="siimple-input"></div>
 <div id = "table" class="siimple-table">
     <div class="siimple-table-header">
@@ -49,10 +78,34 @@ function filterRace(){
     };
     document.getElementById('btnFilter').classList.add("hidden");
     document.getElementById('btnNoFilter').classList.remove("hidden");
+    chart.config._config.data.datasets[0].data = [{{ dev.review0 }}, {{ dev.review1 }}, {{ dev.review2 }}, {{ dev.reviewmore3 }},0,0];
+    chart.update();
+
 }
 var books = document.querySelectorAll(".siimple-table-row.onrace");
 for (var i = 0; i < books.length; i++) {
     books[i].classList.remove("hidden");
 };
+
+var chart = new Chart(document.getElementById("bar-chart"), {
+    type: 'doughnut',
+    data: {
+    labels: ['0 relecture', '1 relecture', '2 relectures', '3 relectures et plus', 'Other', 'Other'],
+    datasets: [
+        {
+        label: 'Relecture',
+        backgroundColor: ['#C2185B', '#D32F2F', '#F57C00', '#FFA000', '#00796B', '#388E3C'],
+        data: [{{ devonrace.review0 }}, {{ devonrace.review1 }}, {{ devonrace.review2 }}, {{ devonrace.reviewmore3 }},0,0]
+        }
+    ]
+    },
+    options: {
+        plugins: {
+            legend: {
+                position: 'left'
+            }
+        }
+    },
+});
 </script>
 {% endblock %}

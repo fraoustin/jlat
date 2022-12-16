@@ -10,6 +10,7 @@ import os
 
 from db import db
 from db.models import Book
+from db.models import ParamRegister
 
 
 __version__ = '0.1.0'
@@ -32,7 +33,7 @@ def view(id):
 @login_required
 @checkAuthorization('Books','ajouter modifier')
 def new():
-    return render_template('book.html', book=Book(onrace=True))
+    return render_template('book.html', book=Book(onrace=True, year=ParamRegister.getValue('year'), idext="XXXX"))
 
 
 @login_required
@@ -61,6 +62,8 @@ def create():
         pathfile = os.path.join(current_app.config['BOOK_FOLDER'], datetime.datetime.now().strftime('%Y%m%d%H%M%S') + unidecode.unidecode(filename))
         file.save(pathfile)
         fileurl = '/uploads' + pathfile.split('/uploads')[1]
+    else:
+        fileurl=""
     
     filep = request.files['filep']
     if filep:
@@ -68,6 +71,8 @@ def create():
         pathfile = os.path.join(current_app.config['BOOK_FOLDER'], datetime.datetime.now().strftime('%Y%m%d%H%M%S') + unidecode.unidecode(filename))
         filep.save(pathfile)
         filepdf = '/uploads' + pathfile.split('/uploads')[1]
+    else:
+        filepdf=""
     
     fileu = request.files['fileu']
     if fileu:
@@ -75,6 +80,8 @@ def create():
         pathfile = os.path.join(current_app.config['BOOK_FOLDER'], datetime.datetime.now().strftime('%Y%m%d%H%M%S') + unidecode.unidecode(filename))
         fileu.save(pathfile)
         fileepub = '/uploads' + pathfile.split('/uploads')[1]
+    else:
+        fileepub=""
 
     book = Book(title=title, 
         description=description,

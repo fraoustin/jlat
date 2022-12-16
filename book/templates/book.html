@@ -6,12 +6,19 @@
 {% endif %}
 {% if book.id != None %}
     {% if current_user.has_authorization('Books','supprimer') %}
-    <div class="siimple-btn icon-del" onclick="window.document.formdel.submit()"></div>
+    <div class="siimple-btn icon-del" onclick="document.getElementById('tip-del').classList.remove('hidden');"></div>
     {% endif %}
 {% endif %}
 {% endblock %}
 
 {% block body %}
+    <div id="tip-del" class="siimple-tip siimple-tip--error siimple-tip--error hidden" style="padding-bottom: 20px !important;">
+        Voulez vous supprimer le livre : {{ book.title }}
+        <div class="siimple--float-right"> 
+            <a><div class="siimple-btn siimple-btn--success" onclick="window.document.formdel.submit();">Oui</div></a>
+            <a><div class="siimple-btn siimple-btn--error " onclick="document.getElementById('tip-del').classList.add('hidden');">Non</div></a>
+        </div>
+    </div>
     <div class="siimple-h2">Livre : {{ book.title }}</div>
     <div id="tabs" class="siimple-tabs siimple-tabs--boxed">
         <div class="siimple-tabs-item siimple-tabs-item--selected" onclick="viewtab('tab1', this)">Général</div>

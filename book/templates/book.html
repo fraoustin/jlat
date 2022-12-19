@@ -43,7 +43,7 @@
                             <div class="siimple-btn siimple-btn--primary icon-upload" onclick="document.getElementById('file').click()"></div><input type="file" name="file" id="file" onchange="changeInput()"  style="display: none">
                         {% endif %}
                         {% if book.fileurl %}                            
-                            <div class="siimple-btn siimple-btn--success icon-download" onclick="location.href='{{ book.fileurl }}';""></div>
+                            <div class="siimple-btn siimple-btn--success icon-download" onclick="location.href='{{ book.fileurl }}';"></div>
                         {% endif %}
                     </div>
                 </td>
@@ -57,7 +57,7 @@
                             <div class="siimple-btn siimple-btn--primary icon-upload" onclick="document.getElementById('filep').click()"></div><input type="file" name="filep" id="filep" onchange="changeInputp()"  style="display: none">
                         {% endif %}
                         {% if book.filepdf %}                            
-                            <div class="siimple-btn siimple-btn--success icon-download" onclick="location.href='{{ book.filepdf }}';""></div>
+                            <div class="siimple-btn siimple-btn--success icon-download" onclick="downloadRename('{{ book.filepdf }}', '{{ book.idext }} {{ book.author }} {{ book.title }}.pdf');"></div>
                         {% endif %}
                     </div>
                 </td>
@@ -71,7 +71,7 @@
                             <div class="siimple-btn siimple-btn--primary icon-upload" onclick="document.getElementById('fileu').click()"></div><input type="file" name="fileu" id="fileu" onchange="changeInputu()"  style="display: none">
                         {% endif %}
                         {% if book.fileepub %}                            
-                            <div class="siimple-btn siimple-btn--success icon-download" onclick="location.href='{{ book.fileepub }}';""></div>
+                            <div class="siimple-btn siimple-btn--success icon-download"  onclick="downloadRename('{{ book.fileepub }}', '{{ book.idext }} {{ book.author }} {{ book.title }}.epub');"></div>
                         {% endif %}
                     </div>
                 </td>
@@ -187,5 +187,29 @@
                 document.getElementById('fileepub').value=filename;
             }
         }
+
+        function downloadRename(url, filename) {
+            fetch(url).then(function(response) {
+                if(response.ok) {
+                    response.blob().then(function(blob) {
+                    objectURL = URL.createObjectURL(blob);
+                    var element = document.createElement('a');
+                    element.setAttribute('href', objectURL);
+                    element.setAttribute('download', filename);
+
+                    element.style.display = 'none';
+                    document.body.appendChild(element);
+
+                    element.click();
+
+                    document.body.removeChild(element);
+                    });
+                } else {
+                    console.log('Network request for "' + product.name + '" image failed with response ' + response.status + ': ' + response.statusText);
+                }
+            });
+
+}
+
     </script>
 {% endblock %}

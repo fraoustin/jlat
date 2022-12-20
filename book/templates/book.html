@@ -57,7 +57,7 @@
                             <div class="siimple-btn siimple-btn--primary icon-upload" onclick="document.getElementById('filep').click()"></div><input type="file" name="filep" id="filep" onchange="changeInputp()"  style="display: none">
                         {% endif %}
                         {% if book.filepdf %}                            
-                            <div class="siimple-btn siimple-btn--success icon-download" onclick="downloadRename('{{ book.filepdf }}', '{{ book.idext }} {{ book.author }} {{ book.title }}.pdf');"></div>
+                            <div class="siimple-btn siimple-btn--success icon-download" onclick="downloadRename('{{ book.filepdf.replace("'"," ") }}', '{{ book.idext.replace("'"," ") }} {{ book.author.replace("'"," ") }} {{ book.title.replace("'"," ") }}.pdf');"></div>
                         {% endif %}
                     </div>
                 </td>
@@ -71,7 +71,7 @@
                             <div class="siimple-btn siimple-btn--primary icon-upload" onclick="document.getElementById('fileu').click()"></div><input type="file" name="fileu" id="fileu" onchange="changeInputu()"  style="display: none">
                         {% endif %}
                         {% if book.fileepub %}                            
-                            <div class="siimple-btn siimple-btn--success icon-download"  onclick="downloadRename('{{ book.fileepub }}', '{{ book.idext }} {{ book.author }} {{ book.title }}.epub');"></div>
+                            <div class="siimple-btn siimple-btn--success icon-download"  onclick="downloadRename('{{ book.fileepub.replace("'"," ") }}', '{{ book.idext.replace("'"," ") }} {{ book.author.replace("'"," ") }} {{ book.title.replace("'"," ") }}.epub');"></div>
                         {% endif %}
                     </div>
                 </td>

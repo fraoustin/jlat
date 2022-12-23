@@ -9,7 +9,42 @@
 {% endblock %}
 
 {% block body %}
-<div class="siimple-h2">Synthèse</div>
+{% set dev = namespace(review0=0, review1=0, review2=0, reviewmore3=0, onrace=0, noonrace=0) %}
+
+{% for book in books %}
+    {% if book.notes|length == 0 %} {% set dev.review0 = dev.review0 + 1 %} {% endif %}
+    {% if book.notes|length == 1 %} {% set dev.review1 = dev.review1 + 1 %} {% endif %}
+    {% if book.notes|length == 2 %} {% set dev.review2 = dev.review2 + 1 %} {% endif %}
+    {% if book.notes|length > 2 %} {% set dev.reviewmore3 = dev.reviewmore3 + 1 %} {% endif %}
+    {% if book.onrace %} {% set dev.onrace = dev.onrace + 1 %} {% endif %}
+    {% if not book.onrace %} {% set dev.noonrace = dev.noonrace + 1 %} {% endif %}
+{% endfor %}
+
+{% set devonrace = namespace(review0=0, review1=0, review2=0, reviewmore3=0, onrace=0, noonrace=0) %}
+
+{% for book in books %}
+    {% if book.onrace %}
+        {% if book.notes|length == 0 %} {% set devonrace.review0 = devonrace.review0 + 1 %} {% endif %}
+        {% if book.notes|length == 1 %} {% set devonrace.review1 = devonrace.review1 + 1 %} {% endif %}
+        {% if book.notes|length == 2 %} {% set devonrace.review2 = devonrace.review2 + 1 %} {% endif %}
+        {% if book.notes|length > 2 %} {% set devonrace.reviewmore3 = devonrace.reviewmore3 + 1 %} {% endif %}
+        {% if book.onrace %} {% set devonrace.onrace = devonrace.onrace + 1 %} {% endif %}
+        {% if not book.onrace %} {% set devonrace.noonrace = devonrace.noonrace + 1 %} {% endif %}
+    {% endif %}
+{% endfor %}
+
+<div class="siimple-h2">Synthèse  <span id="onracetitle">(toujours en course)</span></div>
+
+
+<table style="padding-bottom:15px">
+    <tr><td>En course</td><td id="stronrace"></td></tr>
+    <tr><td>Eliminé</td><td id="strnoonrace"></td></tr>
+    <tr><td>0 relecture</td><td id="str0reviews"></td></tr>
+    <tr><td>1 relecture</td><td id="str1reviews"></td></tr>
+    <tr><td>2 relectures</td><td id="str2reviews"></td></tr>
+    <tr><td style="padding-right: 10px;">3 relectures ou plus</td><td id="str3reviews"></td></tr>
+</table>
+
 <div class="search icon-search"><input id="search" type="text" class="siimple-input"></div>
 <div id = "table" class="siimple-table">
     <div class="siimple-table-header">
@@ -49,10 +84,25 @@ function filterRace(){
     };
     document.getElementById('btnFilter').classList.add("hidden");
     document.getElementById('btnNoFilter').classList.remove("hidden");
+    document.getElementById('onracetitle').classList.add("hidden");
+    document.getElementById('stronrace').textContent ="{{ dev.onrace }}";
+    document.getElementById('strnoonrace').textContent ="{{ dev.noonrace }}";
+    document.getElementById('str0reviews').textContent ="{{ dev.review0 }}";
+    document.getElementById('str1reviews').textContent ="{{ dev.review1 }}";
+    document.getElementById('str2reviews').textContent ="{{ dev.review2 }}";
+    document.getElementById('str3reviews').textContent ="{{ dev.reviewmore3 }}";
+
 }
 var books = document.querySelectorAll(".siimple-table-row.onrace");
 for (var i = 0; i < books.length; i++) {
     books[i].classList.remove("hidden");
 };
+
+document.getElementById('stronrace').textContent ="{{ devonrace.onrace }}";
+document.getElementById('strnoonrace').textContent ="{{ devonrace.noonrace }}";
+document.getElementById('str0reviews').textContent ="{{ devonrace.review0 }}";
+document.getElementById('str1reviews').textContent ="{{ devonrace.review1 }}";
+document.getElementById('str2reviews').textContent ="{{ devonrace.review2 }}";
+document.getElementById('str3reviews').textContent ="{{ devonrace.reviewmore3 }}";
 </script>
 {% endblock %}

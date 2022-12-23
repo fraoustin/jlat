@@ -16,6 +16,15 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.message import EmailMessage
 
+from google.auth.transport.requests import Request
+from google.oauth2.credentials import Credentials
+from google_auth_oauthlib.flow import InstalledAppFlow
+from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
+import base64
+
+SCOPES = ['https://www.googleapis.com/auth/gmail.send']
+
 __version__ = '0.1.0'
 
 PARAMS = ['opened', 'year', 'head', 'foot', 'smtpurl', 'smtpemail', 'smtpemailcc', 'smtppassword', 'smtpmsg', 'smtpport', 'smtpsubject']
@@ -127,11 +136,24 @@ def send_mail(book):
     message['BCC'] = bcc
     message['Subject'] = ParamRegister.getValue('smtpsubject')
     message.set_content(ParamRegister.getValue('smtpmsg'))
-    serveur = smtplib.SMTP(ParamRegister.getValue('smtpurl'), int(ParamRegister.getValue('smtpport')))
-    serveur.starttls()
-    serveur.login(Fromadd, ParamRegister.getValue('smtppassword'))
-    serveur.send_message(message)
-    serveur.quit()
+    message_str = {'raw': base64.urlsafe_b64encode(message.as_string().encode()).decode()}
+    creds = None
+    if os.path.exists('/jlat/gmail/token.json'):
+        creds = Credentials.from_authorized_user_file('/jlat/gmail/token.json', SCOPES)
+    if not creds or not creds.valid:
+        if creds and creds.expired and creds.refresh_token:
+            creds.refresh(Request())
+        else:
+            flow = InstalledAppFlow.from_client_secrets_file('/jlat/gmail/credentials.json', SCOPES)
+            creds = flow.run_local_server(port=0)
+        with open('/jlat/gmail/token.json', 'w') as token:
+            token.write(creds.to_json())
+    try:
+        service = build('gmail', 'v1', credentials=creds)
+        send_message = (service.users().messages().send(userId="me", body=message_str).execute())
+        print(F'Message Id: {send_message["id"]}')
+    except HttpError as error:
+        print(f'An error occurred: {error}')
 
 @login_required
 @checkAdmin()

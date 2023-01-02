@@ -136,24 +136,11 @@ def send_mail(book):
     message['BCC'] = bcc
     message['Subject'] = ParamRegister.getValue('smtpsubject')
     message.set_content(ParamRegister.getValue('smtpmsg'))
-    message_str = {'raw': base64.urlsafe_b64encode(message.as_string().encode()).decode()}
-    creds = None
-    if os.path.exists('/jlat/gmail/token.json'):
-        creds = Credentials.from_authorized_user_file('/jlat/gmail/token.json', SCOPES)
-    if not creds or not creds.valid:
-        if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
-        else:
-            flow = InstalledAppFlow.from_client_secrets_file('/jlat/gmail/credentials.json', SCOPES)
-            creds = flow.run_local_server(port=0)
-        with open('/jlat/gmail/token.json', 'w') as token:
-            token.write(creds.to_json())
-    try:
-        service = build('gmail', 'v1', credentials=creds)
-        send_message = (service.users().messages().send(userId="me", body=message_str).execute())
-        print(F'Message Id: {send_message["id"]}')
-    except HttpError as error:
-        print(f'An error occurred: {error}')
+    serveur = smtplib.SMTP(ParamRegister.getValue('smtpurl'), int(ParamRegister.getValue('smtpport')))
+    serveur.starttls()
+    serveur.login(Fromadd, ParamRegister.getValue('smtppassword'))
+    serveur.send_message(message)
+    serveur.quit()
 
 @login_required
 @checkAdmin()
